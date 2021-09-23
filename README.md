@@ -1,7 +1,7 @@
 # UrbanCompanyNITK
 
 ## How to run the project
-1. Create a virtual environment and activate it
+1. Create a virtual environment and activate it.
 2. `pip3 install -r requirements.txt`
 3. Create a database named `UCDB` locally using mysql
 4. Run the following in your terminal
