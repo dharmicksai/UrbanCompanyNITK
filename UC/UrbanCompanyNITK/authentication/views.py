@@ -32,6 +32,7 @@ class RegistrationView(View):
                 user.set_password(password)
                 user.is_active = False
                 user.save()
+                
                 email_subject = 'Activate your account'
                 email_body = ' test body'
                 email = EmailMessage(
