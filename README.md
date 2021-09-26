@@ -8,6 +8,7 @@
 ```
 cd UC/UrbanCompanyNITK/
 python3 manage.py migrate
+source .env
 python3 manage.py runserver
 ```
 5. Go to localhost:8000 in your browser.
