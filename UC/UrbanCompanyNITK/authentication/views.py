@@ -11,6 +11,7 @@ from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeEr
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_generator
+from validate_email import validate_email
 
 class RegistrationView(View):
     def get(self, request):
@@ -84,8 +85,10 @@ class EmailValidationView(View):
         email = data['email']
         if not validate_email(email):
             return JsonResponse({'email_error': 'Email is invalid'}, status=400)
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'username_error': 'Sorry email in use,choose another one '}, status=409)
+        if email[-11:]!="nitk.edu.in":
+            return JsonResponse({'email_error': 'Email is invalid'}, status=400)
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'email_error': 'Sorry email in use,choose another one '}, status=409)
         return JsonResponse({'Email_valid': True})
 
 # Create your views here.
