@@ -26,8 +26,17 @@
 
       <!--Once the authentication system is set up change this according to whether user is logged in or not-->
       <div class="nav-right">
-        <a class="btn btn-lg btn-primary" href="#">Sign In</a>
-        <a class="btn btn-lg btn-primary" href="#">Sign up</a>
+        <a class="btn btn-lg btn-primary" href="{% url 'login' %}">Sign In</a>
+        <li class="nav-item text-nowrap mt-3 ml-2">
+          <form action="{% url  'logout' %}" method="POST">
+            {% csrf_token %}
+            <input
+              class="text text-capitalize"
+              type="submit"
+              value="Sign out"
+            />
+          </form>
+        </li>
       </div>
     </div>
   </nav>
