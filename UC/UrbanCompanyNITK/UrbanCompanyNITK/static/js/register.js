@@ -6,6 +6,7 @@ const passwordField = document.querySelector("#passwordField");
 const usernameSuccessOutput = document.querySelector(".usernameSuccessOutput");
 const showPasswordToggle = document.querySelector(".showPasswordToggle");
 const submitBtn = document.querySelector(".submit-btn");
+
 const handleToggleInput = (e) => {
   if (showPasswordToggle.textContent === "SHOW") {
     showPasswordToggle.textContent = "HIDE";
