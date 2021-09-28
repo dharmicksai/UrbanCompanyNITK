@@ -7,3 +7,6 @@ def index(request):
 
 def add_something(request):
     return render(request, 'ucnitk/add_something.html')
+
+def order_service(request):
+    return render(request, 'ucnitk/order_service.html')
