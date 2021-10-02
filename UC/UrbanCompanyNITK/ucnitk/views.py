@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import View
 
 # Create your views here.
 
@@ -10,3 +11,7 @@ def add_something(request):
 
 def order_service(request):
     return render(request, 'ucnitk/order_service.html')
+
+class service_provider(View):
+    def get(self, request):
+        return render(request, 'ucnitk/service_provider.html')
