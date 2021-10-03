@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Service(models.Model):
     ServiceName = models.CharField(max_length=50, primary_key=True)
-    MinPrice = models.IntegerField(default=20)
+    MinPrice = models.IntegerField(default=5)
 
     def __str__(self):
-        return self.ServiceType
+        return self.ServiceName
 
 class Order(models.Model):
     OrderId = models.IntegerField(primary_key=True)
