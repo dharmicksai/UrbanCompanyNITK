@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import DetailView
 from .models import *
 
 # Create your views here.
@@ -35,3 +36,6 @@ class service_provider(View):
             'orders': Order.objects.all()
         }
         return render(request, 'ucnitk/service_provider.html', context)
+
+class OrderDetailView(DetailView):
+    model = Order

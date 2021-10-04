@@ -12,7 +12,7 @@
         <h4><a class="article-title" href="#">Service Type</a></h2>
         <p class="article-content">{{ order.Description}}</p>
         <h5>{{ order.AcceptedTime}}</h5>
-        <button class="btn btn-primary">View Order</button>
+        <a class="btn btn-primary" href = "{% url 'order-detail' order.OrderId %}">View Order</a>
         </div>
     </article>
     {% endfor %}
