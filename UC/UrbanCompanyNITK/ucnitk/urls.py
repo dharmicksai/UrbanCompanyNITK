@@ -1,8 +1,16 @@
 from django.urls import path
 from . import views
+from .views import *
 
 urlpatterns = [
 
-    path('', views.index, name = "ucnitk"),
-    path('add-something', views.add_something, name = "add-something")
+    path('', customer.as_view(), name = "ucnitk"),
+    path('add-something', views.add_something, name = "add-something"),
+    # path('order-service', views.order_service, name = "order-service"),
+    path('service-provider', service_provider.as_view(), name = "service-provider"),
+    path('order/<int:pk>/', OrderDetailView.as_view(), name='order-detail'),
+    path('order/new/', views.create_order, name='order-create'),
+    path('your-orders', your_orders.as_view(), name = "your-orders"),
+    path('accepted-orders', accepted_orders.as_view(), name = "accepted-orders"),
+    path('accept_order/<int:pk>/', views.accept_order, name='accept-order'),
 ]
