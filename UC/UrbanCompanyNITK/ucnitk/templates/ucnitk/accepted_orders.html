@@ -1,0 +1,20 @@
+{% extends "ucnitk/base.html" %}
+
+{% block content %}
+    {% for order in orders %}
+    
+    <article class="media content-section">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ order.Customer}}</a>
+            <small class="text-muted">{{ order.QueuedTime}}</small>
+        </div>
+        <h4><a class="article-title" href="#">Service Type</a></h2>
+        <p class="article-content">{{ order.Description}}</p>
+        <h5>{{ order.AcceptedTime}}</h5>
+        <a class="btn btn-primary" href = "{% url 'order-detail' order.OrderId %}">View Order</a>
+        </div>
+    </article>
+    {% endfor %}
+
+{% endblock content %}
