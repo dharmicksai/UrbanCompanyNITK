@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ucnitk',
-    'authentication'
+    'authentication',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 MESSAGE_TAGS = {
