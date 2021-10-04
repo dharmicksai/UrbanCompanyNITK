@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import DetailView
 from .models import *
 
 # Create your views here.
@@ -31,4 +32,10 @@ def order_service(request):
 
 class service_provider(View):
     def get(self, request):
-        return render(request, 'ucnitk/service_provider.html')
+        context = {
+            'orders': Order.objects.all()
+        }
+        return render(request, 'ucnitk/service_provider.html', context)
+
+class OrderDetailView(DetailView):
+    model = Order
