@@ -12,4 +12,5 @@ urlpatterns = [
     path('order/new/', OrderCreateView.as_view(), name='order-create'),
     path('your-orders', your_orders.as_view(), name = "your-orders"),
     path('accepted-orders', accepted_orders.as_view(), name = "accepted-orders"),
+    path('accept_order/<int:pk>/', views.accept_order, name='accept-order'),
 ]

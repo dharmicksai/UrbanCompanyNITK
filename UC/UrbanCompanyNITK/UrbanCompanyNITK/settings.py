@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'UCDB',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'root@I',
         'HOST': 'localhost',
     }
 }

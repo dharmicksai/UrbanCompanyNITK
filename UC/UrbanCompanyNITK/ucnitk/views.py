@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
@@ -73,3 +73,15 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+# def order_detail_view(request , pk):
+#     context = {
+#         'order': Order.objects.filter(id = pk)[0]
+#     }
+#     return render(request, 'ucnitk/order_detail.html', context)
+
+def accept_order(request , pk):
+    order = Order.objects.filter(id = pk)[0]
+    user = request.user
+    order.ServiceProvider = user
+    order.save()
+    return redirect('accepted-orders')
