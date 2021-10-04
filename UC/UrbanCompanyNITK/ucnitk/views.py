@@ -1,4 +1,4 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render
 from django.views import View
 from django.views.generic import DetailView
 from .models import *
@@ -57,17 +57,5 @@ class accepted_orders(View):
         }
         return render(request, 'ucnitk/accepted_orders.html', context)
 
-# class OrderDetailView(DetailView):
-#     model = Order
-def order_detail_view(request , num):
-    context = {
-        'order': Order.objects.filter(OrderId = num)[0]
-    }
-    return render(request, 'ucnitk/order_detail.html', context)
-
-def accept_order(request , num):
-    order = Order.objects.filter(OrderId = num)[0]
-    user = request.user
-    order.ServiceProvider = user
-    order.save()
-    return redirect('accepted-orders') 
+class OrderDetailView(DetailView):
+    model = Order
