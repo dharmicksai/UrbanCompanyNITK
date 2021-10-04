@@ -3,15 +3,18 @@
 <article class="media content-section">
     <div class="media-body">
     <div class="article-metadata">
-        <h2 class="mr-2" >{{ order.Customer}}</h2>
-        <small class="text-muted">{{ order.QueuedTime}}</small>
+        <h2 class="mr-2" >{{ object.Customer}}</h2>
+        <small class="text-muted">{{ object.QueuedTime}}</small>
     </div>
-    <h4><a class="article-title" href="#">Service Type</a></h2>
-    <p class="article-content">{{ order.Description}}</p>
-    <h5>{{ order.AcceptedTime}}</h5>
-    {% if order.ServiceProvider == None and order.Customer != user %}
-    <a class="btn btn-primary" href = "{% url 'accept-order' order.id %}">Accept Order</a>
+    <h4><a class="article-title" href="#">{{ object.ServiceType }}</a></h2>
+    <p class="article-content">{{ object.Description}}</p>
+    
+    {% if user != object.Customer and not object.ServiceProvider %}
+        <a class="btn btn-primary" href = "#">Accept Order</a>
     {% endif %}
+    
+    
+
     </div>
 </article>
 {% endblock content %}
