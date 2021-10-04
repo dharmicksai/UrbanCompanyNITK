@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from .models import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -32,3 +33,9 @@ def order_service(request):
 class service_provider(View):
     def get(self, request):
         return render(request, 'ucnitk/service_provider.html')
+
+@login_required(login_url='/accounts/login/')
+def profile(request):
+
+    user = request.user 
+    return render(request , 'ucnitk/profile.html' , {'username' : user.username , 'email' : user.email})
