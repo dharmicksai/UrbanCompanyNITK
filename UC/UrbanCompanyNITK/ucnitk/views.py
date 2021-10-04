@@ -65,13 +65,26 @@ class accepted_orders(View):
 class OrderDetailView(DetailView):
     model = Order
 
-class OrderCreateView(LoginRequiredMixin, CreateView):
-    model = Order
-    form_class = OrderForm
+# class OrderCreateView(LoginRequiredMixin, CreateView):
+#     model = Order
+#     form_class = OrderForm
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+
+def create_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit = False)
+            instance.Customer = request.user
+            instance.save()
+            return redirect('your-orders')
+    else:
+        form = OrderForm()
+    return render(request , 'ucnitk/order_form.html' , {'form' : form})
+
 
 # def order_detail_view(request , pk):
 #     context = {
