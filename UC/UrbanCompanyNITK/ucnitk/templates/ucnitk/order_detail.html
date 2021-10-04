@@ -9,7 +9,7 @@
     <h4><a class="article-title" href="#">Service Type</a></h2>
     <p class="article-content">{{ order.Description}}</p>
     <h5>{{ order.AcceptedTime}}</h5>
-    {% if order.ServiceProvider == None %}
+    {% if order.ServiceProvider == None and order.Customer != user %}
     <a class="btn btn-primary" href = "{% url 'accept-order' order.id %}">Accept Order</a>
     {% endif %}
     </div>
