@@ -1,7 +1,12 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import (
+    DetailView,
+    CreateView
+)
 from .models import *
+from .forms import OrderForm
 
 # Create your views here.
 
@@ -39,3 +44,12 @@ class service_provider(View):
 
 class OrderDetailView(DetailView):
     model = Order
+
+class OrderCreateView(LoginRequiredMixin, CreateView):
+    model = Order
+    form_class = OrderForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
