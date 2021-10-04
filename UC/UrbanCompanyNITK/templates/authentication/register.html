@@ -1,5 +1,4 @@
-
-{% extends "ucnitk/base.html" %}
+{% extends 'base_auth.html' %}
 {% load static %}
 
 
@@ -13,7 +12,7 @@
 
       <div class="card-body">
         <div class="card-title py-3">
-          <h4>Login to your  account</h4>
+          <h4>Register for a free account</h4>
         </div>
 
         {% if messages %}
@@ -26,7 +25,8 @@
         </div>
         {% endif %}
 
-        <form action="{% url 'login' %}" method="post">
+
+        <form action="{% url 'register' %}" method="post">
           {% csrf_token %}
 
           <div class="form-group">
@@ -39,6 +39,23 @@
               class="form-control form-control-sm"
             />
           </div>
+          <div class="invalid_feedback invalid-feedback" style="display:none">
+          </div>
+          <p class="text-sm text-success usernameSuccessOutput"></p>
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              class="form-control form-control-sm"
+              id="emailField"
+
+              value="{{fieldValues.email}}"
+            />
+          </div>
+
+          <div class="emailFeedBackArea invalid-feedback" style="display:none">
+          </div>
           <p class="text-sm text-success usernameSuccessOutput"></p>
           <div class="form-group">
             <input
@@ -48,8 +65,11 @@
               class="form-control form-control-sm"
               id="passwordField"
             />
+            <small class="float-right py-3 showPasswordToggle">SHOW</small>
           </div>
-          <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn" />
+          <div class="form-group text-center" style="margin: 20px">
+          <input type="submit" value="Register" class="btn btn-block btn-primary submit-btn" />
+          </div>
         </form>
 
       </div>
