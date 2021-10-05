@@ -15,6 +15,8 @@ from validate_email import validate_email
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from .forms import UserUpdateForm, ProfileUpdateForm
 
 
 class RegistrationView(View):
@@ -89,8 +91,8 @@ class EmailValidationView(View):
         email = data['email']
         if not validate_email(email):
             return JsonResponse({'email_error': 'Email is invalid'}, status=400)
-        # if email[-11:]!="nitk.edu.in":
-        #     return JsonResponse({'email_error': 'Email is invalid'}, status=400)
+        if email[-11:]!="nitk.edu.in":
+            return JsonResponse({'email_error': 'Email is invalid'}, status=400)
         if User.objects.filter(email=email).exists():
             return JsonResponse({'email_error': 'Sorry email in use,choose another one '}, status=409)
         return JsonResponse({'Email_valid': True})
@@ -154,6 +156,26 @@ class LogoutView(View):
         messages.success(request, 'You have been logged out')
         return redirect('login')
 
-class ProfileView(View):
-    def get(self, request):
-        return render(request, 'authentication/profile.html')
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile')
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'authentication/profile.html', context)
