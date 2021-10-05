@@ -16,18 +16,19 @@ def index(request):
 
 class customer(View):
     def get(self, request):
-        services =  Service.objects.all()
-        servicelist = {}
-        servicetable = {}
+        # services =  Service.objects.all()
+        # servicelist = {}
+        # servicetable = {}
         
-        i = 1
-        for service in services:
-            servicelist.add(service.ServiceName)
-            if i%3==0:
-                servicetable.add(servicelist)
-                servicelist.clear()  
-            i+=1      
-        return render(request, 'ucnitk/customer.html', {'servicetable':servicetable})
+        # i = 1
+        # for service in services:
+        #     servicelist.add(service.ServiceName)
+        #     if i%3==0:
+        #         servicetable.add(servicelist)
+        #         servicelist.clear()  
+        #     i+=1      
+        # return render(request, 'ucnitk/customer.html', {'servicetable':servicetable})
+        return render(request, 'ucnitk/customer.html')
 
 
 def add_something(request):
@@ -65,25 +66,25 @@ class accepted_orders(View):
 class OrderDetailView(DetailView):
     model = Order
 
-# class OrderCreateView(LoginRequiredMixin, CreateView):
-#     model = Order
-#     form_class = OrderForm
+class OrderCreateView(LoginRequiredMixin, CreateView):
+    model = Order
+    form_class = OrderForm
 
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.Customer = self.request.user
+        return super().form_valid(form)
 
-def create_order(request):
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit = False)
-            instance.Customer = request.user
-            instance.save()
-            return redirect('your-orders')
-    else:
-        form = OrderForm()
-    return render(request , 'ucnitk/order_form.html' , {'form' : form})
+# def create_order(request):
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST)
+#         if form.is_valid():
+#             instance = form.save(commit = False)
+#             instance.Customer = request.user
+#             instance.save()
+#             return redirect('your-orders')
+#     else:
+#         form = OrderForm()
+#     return render(request , 'ucnitk/order_form.html' , {'form' : form})
 
 
 # def order_detail_view(request , pk):

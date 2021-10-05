@@ -9,7 +9,7 @@
             <a class="mr-2" href="#">{{ order.Customer}}</a>
             <small class="text-muted">{{ order.QueuedTime}}</small>
         </div> -->
-        <h4><a class="article-title" href="#">Service Type</a></h2>
+        <h4><a class="article-title" href="#">{{order.ServiceType}}</a></h2>
         <p class="article-content">{{ order.Description}}</p>
         <h5>{{ order.AcceptedTime}}</h5>
         <a class="btn btn-primary" href = "{% url 'order-detail' order.id %}">View Order</a>
