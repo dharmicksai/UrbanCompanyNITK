@@ -10,7 +10,7 @@
     <p class="article-content">{{ object.Description}}</p>
     
     {% if user != object.Customer and not object.ServiceProvider %}
-        <a class="btn btn-primary" href = "#">Accept Order</a>
+        <a class="btn btn-primary" href = "{% url 'accept-order' object.id %}">Accept Order</a>
     {% endif %}
     
     
