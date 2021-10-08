@@ -4,8 +4,26 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
+
+USERTYPE_CHOICES = (
+    ('Admin','Admin'),
+    ('Customer','Customer'),
+    ('ServiceProvider','ServiceProvider')
+)
+
+SERVICE_CHOICES = (
+    ('Electrician','Electrician'),
+    ('Cleaner','Cleaner'),
+    ('Salon','Salon'),
+    ('Laundry','Laundry'),
+    ('Delivery','Delivery'),
+    ('Plumber','Plumber'),
+)
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    usertype =  models.CharField(max_length=15, choices= USERTYPE_CHOICES, default = 'Customer')
+    service = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Delivery')
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     bio = models.TextField()
 

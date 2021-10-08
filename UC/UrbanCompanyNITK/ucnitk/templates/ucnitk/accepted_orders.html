@@ -11,7 +11,7 @@
         </div>
         <h4><a class="article-title" href="#">{{order.ServiceType}}</a></h2>
         <p class="article-content">{{ order.Description}}</p>
-        <h5>{{ order.AcceptedTime}}</h5>
+        <p class="article-content">{{ order.PreferredTime}}</p>
         <a class="btn btn-primary" href = "{% url 'order-detail' order.id %}">View Order</a>
         </div>
     </article>

@@ -16,18 +16,6 @@ def index(request):
 
 class customer(View):
     def get(self, request):
-        # services =  Service.objects.all()
-        # servicelist = {}
-        # servicetable = {}
-        
-        # i = 1
-        # for service in services:
-        #     servicelist.add(service.ServiceName)
-        #     if i%3==0:
-        #         servicetable.add(servicelist)
-        #         servicelist.clear()  
-        #     i+=1      
-        # return render(request, 'ucnitk/customer.html', {'servicetable':servicetable})
         return render(request, 'ucnitk/customer.html')
 
 
@@ -41,7 +29,7 @@ class service_provider(View):
     def get(self, request):
         user = request.user
         context = {
-            'orders': Order.objects.exclude(Customer = user).filter(ServiceProvider = None)
+            'orders': Order.objects.all().exclude(Customer = user).filter(ServiceProvider = None, ServiceType=user.profile.service).order_by('-QueuedTime')
         }
         return render(request, 'ucnitk/service_provider.html', context)
 
@@ -50,7 +38,7 @@ class your_orders(View):
     def get(self, request):
         user = request.user
         context = {
-            'orders': Order.objects.filter(Customer = user)
+            'orders': Order.objects.filter(Customer = user).order_by('-QueuedTime')
         }
         return render(request, 'ucnitk/your_orders.html', context)
 
@@ -59,7 +47,7 @@ class accepted_orders(View):
     def get(self, request):
         user = request.user
         context = {
-            'orders': Order.objects.filter(ServiceProvider = user)
+            'orders': Order.objects.filter(ServiceProvider = user).order_by('-QueuedTime')
         }
         return render(request, 'ucnitk/accepted_orders.html', context)
 
@@ -74,28 +62,25 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         form.instance.Customer = self.request.user
         return super().form_valid(form)
 
-# def create_order(request):
-#     if request.method == 'POST':
-#         form = OrderForm(request.POST)
-#         if form.is_valid():
-#             instance = form.save(commit = False)
-#             instance.Customer = request.user
-#             instance.save()
-#             return redirect('your-orders')
-#     else:
-#         form = OrderForm()
-#     return render(request , 'ucnitk/order_form.html' , {'form' : form})
-
-
-# def order_detail_view(request , pk):
-#     context = {
-#         'order': Order.objects.filter(id = pk)[0]
-#     }
-#     return render(request, 'ucnitk/order_detail.html', context)
-
 def accept_order(request , pk):
     order = Order.objects.filter(id = pk)[0]
     user = request.user
     order.ServiceProvider = user
+    order.AcceptedTime = timezone.now()
+    order.save()
+    return redirect('accepted-orders')
+
+def cancel_order(request, pk):
+    order = Order.objects.filter(id = pk)[0]
+    user = request.user
+    order.ServiceProvider = None
+    order.AcceptedTime = None
+    order.save()
+    return redirect('your-orders')
+
+def finish_order(request, pk):
+    order = Order.objects.filter(id = pk)[0]
+    user = request.user
+    order.OrderFinishedTime = timezone.now()
     order.save()
     return redirect('accepted-orders')
