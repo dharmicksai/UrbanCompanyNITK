@@ -13,4 +13,7 @@ urlpatterns = [
     path('your-orders', your_orders.as_view(), name = "your-orders"),
     path('accepted-orders', accepted_orders.as_view(), name = "accepted-orders"),
     path('accept_order/<int:pk>/', views.accept_order, name='accept-order'),
+    path('cancel_order/<int:pk>/', views.cancel_order, name='cancel-order'),
+    path('finish_order/<int:pk>/', views.finish_order, name='finish-order'),
+    path('delete_order/<int:pk>/', views.delete_order, name='delete-order'),
 ]

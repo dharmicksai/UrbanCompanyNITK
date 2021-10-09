@@ -67,6 +67,7 @@ def accept_order(request , pk):
     user = request.user
     order.ServiceProvider = user
     order.AcceptedTime = timezone.now()
+    order.Status = 'Accepted'
     order.save()
     return redirect('accepted-orders')
 
@@ -75,12 +76,18 @@ def cancel_order(request, pk):
     user = request.user
     order.ServiceProvider = None
     order.AcceptedTime = None
+    order.Status = 'Not Accepted'
     order.save()
     return redirect('your-orders')
 
 def finish_order(request, pk):
     order = Order.objects.filter(id = pk)[0]
-    user = request.user
     order.OrderFinishedTime = timezone.now()
+    order.Status = 'Pending Payment'
     order.save()
     return redirect('accepted-orders')
+
+def delete_order(request, pk):
+    order = Order.objects.filter(id=pk)[0]
+    order.delete()
+    return redirect('your-orders')
