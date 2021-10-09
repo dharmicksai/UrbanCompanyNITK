@@ -33,9 +33,17 @@
     {% elif user == object.Customer and object.Status == 'Not Accepted' %}
         <!--Delete Order Premanently -->
         <a class="btn btn-primary" href = "{% url 'delete-order' object.id %}">Delete Order</a>
-    {% elif user == object.Customer and object.Status == 'Pending Payment' %} -->
+
+    {% elif user == object.Customer and object.Status == 'Accepted' %}    
+        <!--Show that Order is in Progress-->
+        <small class = "text-muted">Order accepted : {{ order.AcceptedTime}} Order in Progress</small>
+
+    {% elif user == object.Customer and object.Status == 'Pending Payment' %}
         <!-- Make Payment -->
-        <a class="btn btn-primary" href = "{% url 'pay-order' object.id %}">Pay Order</a>    
+        <a class="btn btn-primary" href = "#">Pay Order</a> 
+    
+    {% elif user == object.Customer and object.Status == 'Completed' %}
+        <small class="text-muted">Order Completed : {{ order.CompletedTime}}</small>
     
     {% elif user == object.ServiceProvider and object.Status == 'Accepted' %}
         <!-- Finish Order or Cancel temporarily -->
@@ -43,9 +51,13 @@
         <a class="btn btn-primary" href = "{% url 'finish-order' object.id %}">Finish Order</a>
     {% elif user == object.ServiceProvider and object.Status == 'Pending Payment'%} 
         <!-- Collect Payment -->
-        <a class="btn btn-primary" href = "{% url 'order-paid' object.id %}">Order Paid</a>
+        <a class="btn btn-primary" href = "#">Order is Paid</a>
+
+    {% elif user == object.ServiceProvider and object.Status == 'Completed' %}
+        <small class="text-muted">Order Completed : {{ order.CompletedTime}}</small>
+    
     {% else %} 
-        <!-- User is not the service provider and the customer of the order here -->
+        <!-- User is neither the service provider nor the customer of the order here -->
         <!-- Order already accepted -->
         <small class = "text-muted"> Order already accepted on {{ order.AcceptedTime}}</small>
     
