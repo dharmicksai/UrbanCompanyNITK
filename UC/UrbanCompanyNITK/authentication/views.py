@@ -17,6 +17,7 @@ from django.urls import reverse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
+from .models import Profile
 
 
 class RegistrationView(View):
@@ -170,6 +171,12 @@ def profile(request):
             return redirect('profile')
 
     else:
+        
+        try:
+            request.user.profile
+        except Exception:
+            Profile.objects.create(user=request.user)
+
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
