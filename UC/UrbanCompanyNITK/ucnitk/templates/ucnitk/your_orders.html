@@ -9,9 +9,20 @@
             <a class="mr-2" href="#">{{ order.Customer}}</a>
             <small class="text-muted">{{ order.QueuedTime}}</small>
         </div> -->
-        <h4><a class="article-title" href="#">{{order.ServiceType}}</a></h2>
+        <div class = "article-metadata">
+            <a class = "mr-2">{{order.Status}}</a>
+            {% if order.Status == 'Not Accepted' %}
+                <small class = "text-muted"> {{ order.QueuedTime}}</small>
+            {% elif order.Status == 'Accepted' %}
+                <small class = "text-muted"> {{ order.AcceptedTime}}</small>
+            {% else %}
+                <small class = "text-muted"> {{ order.FinishedTime}}</small>
+            {% endif %}
+        </div>
+        
+        <h4><a class="article-title">{{order.ServiceType}}</a></h2>
         <p class="article-content">{{ order.Description}}</p>
-        <h5>{{ order.AcceptedTime}}</h5>
+        <p class="article-content">{{ order.PreferredTime}}</p>
         <a class="btn btn-primary" href = "{% url 'order-detail' order.id %}">View Order</a>
         </div>
     </article>

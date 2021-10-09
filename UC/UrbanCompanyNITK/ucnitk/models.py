@@ -27,6 +27,11 @@ TIME_CHOICES = (
     ('2PM-5PM','2PM-5PM'),
     ('5PM-8PM','5PM-8PM'),
 )
+rate= (('1',1),
+('2',2),
+('3',3),
+('4',4),
+('5',5))
 class Order(models.Model):
     Customer = models.ForeignKey(User, related_name='Customer', on_delete=models.CASCADE)
     ServiceProvider = models.ForeignKey(User, related_name='ServiceProvider', on_delete=models.CASCADE)
@@ -35,11 +40,18 @@ class Order(models.Model):
     Description = models.TextField()
     QueuedTime = models.DateTimeField(default=timezone.now)
     AcceptedTime = models.DateTimeField(default=timezone.now)
-    CanceledTime = models.DateTimeField(default=timezone.now)
-    OrderFinishedTime = models.DateTimeField(default=timezone.now)
     CompletedTime = models.DateTimeField(default=timezone.now)
     ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
     PreferredTime = models.CharField(max_length=15, choices= TIME_CHOICES, default = 'Anytime')
+    Status = models.CharField(max_length=15, default = 'Not Accepted')
     
     def get_absolute_url(self):
         return reverse('order-detail', kwargs={'pk': self.pk})
+
+
+class review(models.Model):
+    Customer = models.ForeignKey(User, related_name='Review_Customer', on_delete=models.CASCADE)
+    ServiceProvider = models.ForeignKey(User, related_name='Review_ServiceProvider', on_delete=models.CASCADE)
+    ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
+    rating=models.IntegerField(choices=rate,default=1)
+    review=models.CharField(max_length=250)

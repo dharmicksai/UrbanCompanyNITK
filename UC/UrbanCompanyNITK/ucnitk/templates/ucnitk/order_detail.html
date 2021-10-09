@@ -4,13 +4,52 @@
     <div class="media-body">
     <div class="article-metadata">
         <h2 class="mr-2" >{{ object.Customer}}</h2>
-        <small class="text-muted">{{ object.QueuedTime}}</small>
+        <!-- ############# Displaying the status of the order ########### -->
+        <!-- ############# Only to the Customer and the Service Provider who accepted the Order ########### -->
+        
+            
+        {% if user == object.Customer or user == object.ServiceProvider and order.Status == 'Not Accepted' %}
+            <small class = "text-muted"> Order Placed on {{ order.QueuedTime}}</small>
+        {% elif user == object.Customer or user == object.ServiceProvider and order.Status == 'Accepted' %}
+            <small class = "text-muted"> Order Accepted on {{ order.AcceptedTime}}</small>
+        {% elif user == object.Customer or user == object.ServiceProvider %}
+            <small class = "text-muted"> Order completed on {{ order.FinishedTime}}</small>
+        {% endif %}
+            
+        
     </div>
     <h4><a class="article-title" href="#">{{ object.ServiceType }}</a></h2>
     <p class="article-content">{{ object.Description}}</p>
-    
+    <p class="article-content">{{ object.PreferredTime}}</p>
+
+
+    <!-- ####### Add Appropriate button based on the status of the order ############-->
+    {% if user == object.Customer %}
+        <a class="btn btn-primary" href="#">Help and Support</a>
+    {% endif %}
+
     {% if user != object.Customer and not object.ServiceProvider %}
         <a class="btn btn-primary" href = "{% url 'accept-order' object.id %}">Accept Order</a>
+
+    {% elif user == object.Customer and object.Status == 'Not Accepted' %}
+        <!--Delete Order Premanently -->
+        <a class="btn btn-primary" href = "{% url 'delete-order' object.id %}">Delete Order</a>
+    {% elif user==object.Customer and object.Status=='Pending Payment' %}
+        <!-- Make Payment -->
+        <a class="btn btn-primary" href = "{% url 'pay-order' object.id %}">Pay Order</a>       
+    
+    {% elif user==object.ServiceProvider and object.Status=='Accepted' %}
+        <!-- Finish Order or Cancel temporarily -->
+        <a class="btn btn-primary" href = "{% url 'cancel-order' object.id %}">Cancel Order</a>
+        <a class="btn btn-primary" href = "{% url 'finish-order' object.id %}">Finish Order</a>
+    {% elif user==object.ServiceProvider and object.Status=='Pending Payment'%}
+        <!-- Collect Payment -->
+        <a class="btn btn-primary" href = "{% url 'order-paid' object.id %}">Order Paid</a>
+    {% else %}
+        <!-- User is not the service provider and the customer of the order here -->
+        <!-- Order already accepted -->
+        <small class = "text-muted"> Order already accepted on {{ order.AcceptedTime}}</small>
+    
     {% endif %}
     
     
