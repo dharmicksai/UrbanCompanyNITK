@@ -1,66 +1,91 @@
-{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+{% load static %}
+
 <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Urban Company NITK</title>
+  <meta content="" name="description">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta content="" name="keywords">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'ucnitk/main.css' %}">
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
-    {% if title %}
-        <title>UC NITK - {{ title }}</title>
-    {% else %}
-        <title>UC NITK</title>
-    {% endif %}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.6.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
+
 <body>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'ucnitk' %}">Urban Comapny NITK</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'ucnitk' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'your-orders' %}">Your Orders</a>
-              {% if user.is_authenticated%}
-              <a class="nav-item nav-link" href="{% url 'accepted-orders' %}">Accepted Orders</a>
-              <a class="nav-item nav-link" href="{% url 'service-provider' %}">Provide Service</a>
-              {% endif %}
-              <a class="nav-item nav-link" href="#">About</a>
-            </div>
-            <!-- Navbar Right Side -->
-            <!-- <div class="navbar-nav"> -->
-              {% if user.is_authenticated%}
-                <a class="btn btn-dark" style="font-color: white" href="{% url 'profile' %}">Profile</a>
-                <a class="nav-item nav-link">
-                  <form action="{% url  'logout' %}" method="POST">
-                    {% csrf_token %}
-                    <input
-                      type="submit"
-                      value="Logout" class="btn btn-dark"
-                    />
-                  </form>
-                </a>
-              {% else %}
-                <a class="btn btn-dark" href="{% url 'login' %} " style="margin-right: 20px">Sign In</a>
-                <a class="btn btn-dark" href="{% url 'register' %}">Sign Up</a>
-              {% endif %}
-            <!-- </div> -->
-          </div>
-        </div>
-      </nav>
-    </header>
+
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="{% url 'ucnitk' %}" class="logo d-flex align-items-center">
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <span>Urban Company NITK</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+
+
+
+          {% if user.is_authenticated%}
+          <li> <a class="nav-item nav-link" href="{% url 'ucnitk' %}">Home</a></li>
+          <li><a class="nav-item nav-link" href="{% url 'your-orders' %}">Your Orders</a></li>
+          <li><a class="nav-item nav-link" href="{% url 'accepted-orders' %}">Accepted Orders</a></li>
+          <li><a class="nav-item nav-link" href="{% url 'service-provider' %}">Provide Service</a></li>
+
+
+          <li><a class="nav-item nav-link" style="font-color: white" href="{% url 'profile' %}">Profile</a></li>
+          <li><a class="nav-item nav-link">
+            <form action="{% url  'logout' %}" method="POST">
+              {% csrf_token %}
+              <input
+                type="submit"
+                value="Logout" class="btn btn-dark"
+              />
+            </form>
+          </a></li>
+        {% else %}
+          <li><a class="nav-item nav-link" href="{% url 'login' %} " style="margin-right: 20px">Sign In</a></li>
+          <li><a class="nav-item nav-link" href="{% url 'register' %}">Sign Up</a></li>
+        {% endif %}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
     <main role="main" class="container">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8" style="margin-top:100px">
           {% if messages %}
             {% for message in messages %}
               <div class="alert alert-{{ message.tags }}">
@@ -70,27 +95,23 @@
           {% endif %}
           {% block content %}{% endblock %}
         </div>
-        <!--<div class="col-md-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-            </p>
-          </div>
-        </div>-->
       </div>
     </main>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-</body>
-</html>
+      <!-- Vendor JS Files -->
+      <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+      <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+      <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+      <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+      <script src="{% static 'assets/vendor/purecounter/purecounter.js' %}"></script>
+      <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+      <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+
+      <!-- Template Main JS File -->
+      <script src="{% static 'assets/js/main.js' %}"></script>
+
+    </body>
+
+    </html>
