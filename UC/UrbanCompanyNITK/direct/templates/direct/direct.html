@@ -4,10 +4,9 @@
 
 {% block content %}
 
-  <div class="columns is-mobile">
-
-
-  <div class="column is-one-quarter">
+  <!-- <div class="container" style="background:blue"> -->
+  <!-- <div class="row"> -->
+  <!-- <div class="col-xs-6" style="width:400px; margin: 50px; position:fixed; float:right"> -->
   <aside class="menu">
     <h1 class="title is-2">
     Messages
@@ -17,7 +16,7 @@
 {% for message in messages %}
 
 <a class="{% if active_direct == message.user.username %}is-active{% endif %}" href="{% url 'directs' message.user.username %}">
-<div class="box">
+<!-- <div class="box"> -->
   <article class="media">
     <div class="media-left">
       <figure class="image is-64x64">
@@ -46,7 +45,7 @@
 
     </div>
   </article>
-</div>
+<!-- </div> -->
 </a>
 {% endfor %}
 
@@ -57,7 +56,7 @@
 
 </div>
 
-<div class="column">
+<div class="col-xs-6" style="width:400px; margin: 50px">
 
 <div style="overflow-y: scroll; height: 500px">
 
@@ -100,7 +99,7 @@
     <nav class="level">
       <div class="level-left">
         <div class="level-item">
-          <button type="submit" name="action" class="button is-info">Send</buttom>
+          <button type="submit" name="action" class="button is-info">Send</button>
         </div>
       </div>
     </nav>
@@ -109,6 +108,8 @@
 </form>
 
 </div>
-</div>
+
+<!-- </div> -->
+<!-- </div> -->
 
 {% endblock %}
