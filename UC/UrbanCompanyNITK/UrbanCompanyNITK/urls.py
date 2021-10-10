@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('ucnitk.urls')),
     path('authentication/', include('authentication.urls')),
     path('admin/', admin.site.urls),
+    path('direct/', include('direct.urls')),
 ]
 
 

@@ -171,7 +171,7 @@ def profile(request):
             return redirect('profile')
 
     else:
-        
+
         try:
             request.user.profile
         except Exception:
