@@ -6,7 +6,6 @@ from PIL import Image
 
 
 USERTYPE_CHOICES = (
-    ('Admin','Admin'),
     ('Customer','Customer'),
     ('ServiceProvider','ServiceProvider')
 )

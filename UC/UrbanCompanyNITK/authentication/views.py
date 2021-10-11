@@ -16,20 +16,26 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm
+from .forms import UserUpdateForm, ProfileUpdateForm , UserInfoForm
 from .models import Profile
 
 
 class RegistrationView(View):
     def get(self, request):
-        return render(request, 'authentication/register.html')
+
+        context = {
+            'u_form': UserInfoForm,
+        }
+
+        return render(request, 'authentication/register.html',context)
 
     def post(self, request):
         #GET USER DATA
-        messages.success(request, 'Success whatsapp')
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
+
+        print(request.POST)
 
         context={
             'fieldValues':request.POST
@@ -41,10 +47,23 @@ class RegistrationView(View):
                     messages.error(request, 'Password too short')
                     return render(request, 'authentication/register.html', context)
 
+                print("BRUH")
+                print(request.POST['usertype'])
+                print(request.POST['service'])
+
+                if request.POST['usertype'] == 'Customer' and request.POST['service'] != 'Delivery':
+                    messages.error(request, 'Customers can only do Delivery')
+                    return render(request, 'authentication/register.html', context)
+
                 user = User.objects.create_user(username = username, email = email)
                 user.set_password(password)
                 user.is_active = False
+                p = Profile.objects.create(user=user)
+
+                
+
                 user.save()
+                # p.save()
 
                 #path to views
                 # getting domain we are on
@@ -92,8 +111,8 @@ class EmailValidationView(View):
         email = data['email']
         if not validate_email(email):
             return JsonResponse({'email_error': 'Email is invalid'}, status=400)
-        if email[-11:]!="nitk.edu.in":
-            return JsonResponse({'email_error': 'Email is invalid'}, status=400)
+        # if email[-11:]!="nitk.edu.in":
+        #     return JsonResponse({'email_error': 'Email is invalid'}, status=400)
         if User.objects.filter(email=email).exists():
             return JsonResponse({'email_error': 'Sorry email in use,choose another one '}, status=409)
         return JsonResponse({'Email_valid': True})
