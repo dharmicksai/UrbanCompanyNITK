@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ucnitk',
     'authentication',
     'crispy_forms',
+    'direct'
 ]
 
 MIDDLEWARE = [
