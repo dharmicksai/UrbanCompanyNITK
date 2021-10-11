@@ -38,7 +38,8 @@ class RegistrationView(View):
         print(request.POST)
 
         context={
-            'fieldValues':request.POST
+            'fieldValues':request.POST,
+            'u_form': UserInfoForm,
         }
 
         if not User.objects.filter(username=username).exists():
@@ -47,9 +48,8 @@ class RegistrationView(View):
                     messages.error(request, 'Password too short')
                     return render(request, 'authentication/register.html', context)
 
-                print("BRUH")
-                print(request.POST['usertype'])
-                print(request.POST['service'])
+                # print(request.POST['usertype'])
+                # print(request.POST['service'])
 
                 if request.POST['usertype'] == 'Customer' and request.POST['service'] != 'Delivery':
                     messages.error(request, 'Customers can only do Delivery')
