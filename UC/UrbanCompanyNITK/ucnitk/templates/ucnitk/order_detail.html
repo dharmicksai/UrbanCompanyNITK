@@ -27,7 +27,7 @@
       <!-- ####### Add Appropriate button based on the status of the order ############-->
        {% if user == object.Customer %}
         <a class="btn btn-primary" href="{% url 'review' object.id %}">Review</a>
-    {% endif %}
+    
       {% endif %}
 
       {% if user != object.Customer and not object.ServiceProvider %}
