@@ -38,11 +38,12 @@
   ======================================================== -->
 </head>
 
-<body>
+<body style="background-color:#f0f0f5">
 
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="{% url 'ucnitk' %}" class="logo d-flex align-items-center">
@@ -83,16 +84,20 @@
 
     </div>
   </header><!-- End Header -->
+
+
+
+
     <!-- <main role="main" class="container"> -->
       <!-- <div class="row"> -->
         <div class="nothing" style="margin-top:100px">
-          {% if messages %}
+          <!-- {% if messages %}
             {% for message in messages %}
               <div class="alert alert-{{ message.tags }}">
                 {{ message }}
               </div>
             {% endfor %}
-          {% endif %}
+          {% endif %} -->
           {% block content %}{% endblock %}
         </div>
       <!-- </div> -->

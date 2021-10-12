@@ -2,19 +2,21 @@
 
 {% block content %}
     {% for order in orders %}
-    
+
+    <div class="content-section " style="background-color:white; border-radius:10px; width:50%; margin:auto;margin-bottom:10px; padding:20px; border-style:ridge; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
     <article class="media content-section">
         <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="#">{{ order.Customer}}</a>
             <small class="text-muted">{{ order.QueuedTime}}</small>
         </div>
-        <h4><a class="article-title" href="#">{{order.ServiceType}}</a></h2>
+        <h4><a class="article-title" href="#">{{order.ServiceType}}</a></h4>
         <p class="article-content">{{ order.Description}}</p>
         <p class="article-content">{{ order.PreferredTime}}</p>
         <a class="btn btn-primary" href = "{% url 'order-detail' order.id %}">View Order</a>
         </div>
     </article>
+    </div>
     {% endfor %}
 
 {% endblock content %}
