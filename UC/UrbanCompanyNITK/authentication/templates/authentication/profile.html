@@ -1,8 +1,9 @@
 {% extends "ucnitk/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
-  <div class="media">
+<div class="content-section " style="border-radius:10px; width:50%; margin:auto; padding:20px; border-style:ridge; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+  <div class="media text-center">
+    
     <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
     <div class="media-body">
       <h2 class="account-heading">{{ user.username }}</h2>
@@ -10,12 +11,15 @@
       <p class="text-secondary">{{ user.profile.bio }}</p>
     </div>
   </div>
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" style="width:90%; margin:auto">
       {% csrf_token %}
       <fieldset class="form-group">
           <legend class="border-bottom mb-4">Profile Info</legend>
-          {{ u_form|crispy }}
-          {{ p_form|crispy }}
+
+
+          <div class="form-control form-control-sm">{{ u_form|crispy }}
+          {{ p_form|crispy }}</div>
+
       </fieldset>
       <div class="form-group">
           <button class="btn btn-outline-info" type="submit">Update</button>
