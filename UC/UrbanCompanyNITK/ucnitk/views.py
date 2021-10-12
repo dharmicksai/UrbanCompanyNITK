@@ -7,7 +7,7 @@ from django.views.generic import (
     CreateView
 )
 from .models import *
-from .forms import OrderForm
+from .forms import OrderForm,reviewForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
