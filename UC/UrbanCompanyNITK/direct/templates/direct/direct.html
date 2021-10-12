@@ -3,35 +3,28 @@
 {% load static %}
 
 {% block content %}
-<style>
-            #leftbox {
-                float:left;
-            }
-            #middlebox{
-                float:left;
-                #leftboxa {
-                    float:left;
-                }
-                #middleboxa{
-                    float:left;
-                }
-            }
-            #rightbox{
-                float:right;
-                background:blue;
-            }
-            h1{
-                color:green;
-                text-align:center;
-            }
-        </style>
-<div class="container" style="width:1100px;height:400px; position:relative;">
 
-    <div class="container">
+<style>
+.parent {
+  margin: auto;
+  padding: 2rem 2rem;
+}
+.child {
+  display: inline-block;
+  padding: 1rem 1rem;
+  vertical-align: middle;
+}
+</style>
+
+<div class="parent" style="width:1100px;padding:10px; position:relative; border-style:groove">
+  `<div class="container text-center">
+    Inbox
+  </div>
+    <div class="child" style="width:30%">
       Messages
       {% for message in messages %}
       <a class="{% if active_direct == message.user.username %}is-active{% endif %}" href="{% url 'directs' message.user.username %}">
-        <div class="container" style="padding:5px">
+        <div class="container" style="padding:5px; border-bottom-style:solid">
             {% if message.user.profile.image.url %}
               <img src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
             {% else %}
@@ -47,7 +40,7 @@
     </div>
 
 
-    <div class="column">
+    <div class="child" style="width:60%">
 
         <div style="overflow-y: scroll; height: 500px">
 
@@ -57,9 +50,9 @@
             <div class="media-left">
             </div>
             <div class="media-content">
-              <div class="content">
+              <div class="content" style="border-bottom-style:groove">
                 <p>
-                  <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small>@{{ direct.sender.username }}</small> on: <strong><small>{{ direct.date|date:'N d G:i'}}</small></strong>
+                  <small>@{{ direct.sender.username }}</small>
                 </p>
                 {{ direct.body }}
               </div>
@@ -69,11 +62,11 @@
         {% endfor %}
         </div>
 
-      <div id="boxes">
+      <div id="parent">
           <form role="form" method="POST" action="{% url 'send_direct' %}">
             {% csrf_token %}
           <article class="media">
-            <div id="leftbox">
+            <div id="child">
               <p class="image is-64x64">
                 {% if message.user.profile.image.url %}
                   <img src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
@@ -82,7 +75,7 @@
                 {% endif %}
               </p>
             </div>
-            <div id="middlebox">
+            <div id="child">
               <input type="hidden" name="to_user" value="{{ active_direct }}">
               <div class="leftboxa">
                 <p class="control">

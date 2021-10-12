@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Max
+# from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
+
+# As model field:
+# from django_currentuser.db.models import CurrentUserField
+# class Foo(models.Model):
+#     created_by = CurrentUserField()
+#     updated_by = CurrentUserField(on_update=True)
 
 # Create your models here.
 class Message(models.Model):
