@@ -11,3 +11,11 @@ class OrderForm(forms.ModelForm):
             "Description",
             "FromLocation"
         ]
+class reviewForm(forms.ModelForm):
+    class Meta:
+        model = review
+        fields = [
+            "ServiceType",
+            "rating",
+            "review"
+        ]
