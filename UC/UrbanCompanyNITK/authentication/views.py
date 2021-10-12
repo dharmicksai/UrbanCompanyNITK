@@ -58,7 +58,8 @@ class RegistrationView(View):
                 user = User.objects.create_user(username = username, email = email)
                 user.set_password(password)
                 user.is_active = False
-                p = Profile.objects.create(user=user)
+                p = Profile.objects.create(user=user,usertype = request.POST['usertype'],service = request.POST['service'])
+                p.save()
 
                 
 

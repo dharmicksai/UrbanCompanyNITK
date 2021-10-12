@@ -62,6 +62,14 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.Customer = self.request.user
         return super().form_valid(form)
+    
+class reviewCreateView(LoginRequiredMixin, CreateView):
+    model = review
+    form_class = reviewForm
+
+    def form_valid(self, form):
+        form.instance.Customer = self.request.user
+        return super().form_valid(form)
 
 def accept_order(request , pk):
     order = Order.objects.filter(id = pk)[0]
