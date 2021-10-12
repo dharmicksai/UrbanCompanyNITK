@@ -12,7 +12,7 @@
 
 
       <div class="card-body">
-        <div class="card-title py-3">
+        <div class="card-title py-3 text-center">
           <h4>Login to your  account</h4>
         </div>
 
@@ -49,12 +49,14 @@
               id="passwordField"
             />
           </div>
-          <input type="submit" value="Loginnnnnn" class="btn btn-block btn-primary submit-btn" />
+          <div class="text-center">
+            <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn" style="margin:10px; position:relative" />
+          </div>
+
         </form>
 
-        <p>Testtttttttttttttttttttt</p>
 
-        <a class="btn btn-dark" href="{% url 'register' %}">Register Instead</a>
+        <a class="" href="{% url 'register' %}" style="margin:10px">New User</a>
 
       </div>
 

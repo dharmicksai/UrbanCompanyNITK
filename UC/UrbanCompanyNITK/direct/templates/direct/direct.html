@@ -3,7 +3,29 @@
 {% load static %}
 
 {% block content %}
-<div class="container" style="width:1100px;height:600px; position:relative;">
+<style>
+            #leftbox {
+                float:left;
+            }
+            #middlebox{
+                float:left;
+                #leftboxa {
+                    float:left;
+                }
+                #middleboxa{
+                    float:left;
+                }
+            }
+            #rightbox{
+                float:right;
+                background:blue;
+            }
+            h1{
+                color:green;
+                text-align:center;
+            }
+        </style>
+<div class="container" style="width:1100px;height:400px; position:relative;">
 
     <div class="container">
       Messages
@@ -47,40 +69,38 @@
         {% endfor %}
         </div>
 
-
-    <form role="form" method="POST" action="{% url 'send_direct' %}">
-      {% csrf_token %}
-    <article class="media">
-      <figure class="media-left">
-        <p class="image is-64x64">
-          {% if message.user.profile.image.url %}
-            <img src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
-          {% else %}
-            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" style="border-radius:50px; width:50px">
-          {% endif %}
-        </p>
-      </figure>
-      <div class="media-content">
-        <input type="hidden" name="to_user" value="{{ active_direct }}">
-        <div class="field">
-          <p class="control">
-            <textarea class="textarea" name="body" placeholder="Add a comment..."></textarea>
-          </p>
-        </div>
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <button type="submit" name="action" class="button is-info">Send</button>
+      <div id="boxes">
+          <form role="form" method="POST" action="{% url 'send_direct' %}">
+            {% csrf_token %}
+          <article class="media">
+            <div id="leftbox">
+              <p class="image is-64x64">
+                {% if message.user.profile.image.url %}
+                  <img src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
+                {% else %}
+                  <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" style="border-radius:50px; width:50px">
+                {% endif %}
+              </p>
             </div>
-          </div>
-        </nav>
-      </div>
-    </article>
-    </form>
-
+            <div id="middlebox">
+              <input type="hidden" name="to_user" value="{{ active_direct }}">
+              <div class="leftboxa">
+                <p class="control">
+                  <textarea class="textarea" name="body" placeholder="Add a comment..."></textarea>
+                </p>
+              </div>
+              <div class="middleboxa">
+                <div class="rightbox">
+                  <div class="level-item">
+                    <button type="submit" name="action" class="button is-info">Send</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          </form>
+        </div>
     </div>
-
-
 </div>
 
 <div class="container" style="width:200px; position:fixed; right:100px; bottom:100px">
