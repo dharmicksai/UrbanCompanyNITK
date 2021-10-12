@@ -50,6 +50,7 @@ class Order(models.Model):
 
 
 class review(models.Model):
+    Order.id= models.ForeignKey(Order, related_name='id', on_delete=models.CASCADE)
     Customer = models.ForeignKey(User, related_name='Review_Customer', on_delete=models.CASCADE)
     ServiceProvider = models.ForeignKey(User, related_name='Review_ServiceProvider', on_delete=models.CASCADE)
     ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
