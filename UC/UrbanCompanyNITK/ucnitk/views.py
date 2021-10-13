@@ -121,6 +121,7 @@ def finish_order(request, pk):
     order = Order.objects.filter(id = pk)[0]
     order.OrderFinishedTime = timezone.now()
     order.Status = 'Pending Payment'
+    order.Price = request.POST['price']
     order.save()
 
     email_subject = 'Order for ' + order.ServiceType + " has been Finished by "+ request.user.username

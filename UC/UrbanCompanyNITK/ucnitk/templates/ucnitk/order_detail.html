@@ -55,7 +55,26 @@
       {% elif user == object.ServiceProvider and object.Status == 'Accepted' %}
           <!-- Finish Order or Cancel temporarily -->
           <a class="btn btn-primary" href = "{% url 'cancel-order' object.id %}">Cancel Order</a>
-          <a class="btn btn-primary" href = "{% url 'finish-order' object.id %}">Finish Order</a>
+          <br>
+          <form action="{% url 'finish-order' object.id %}" method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="price">Quote price for Service :</label>
+                <input 
+                    type="number" 
+                    min="10" 
+                    max="500" 
+                    id="price"
+                    placeholder="Quote Price" 
+                    name="price" 
+                    style="width:120px;"
+                    required
+                />
+            </div>
+            <button type="submit" class="btn btn-primary"  value="Submit">Finish Order</button>
+          </form>
+
       {% elif user == object.ServiceProvider and object.Status == 'Pending Payment'%}
           <!-- Collect Payment -->
           <!-- Just send a notification saying completed -->
