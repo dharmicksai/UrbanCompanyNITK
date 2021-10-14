@@ -43,6 +43,14 @@ class your_orders(View):
         }
         return render(request, 'ucnitk/your_orders.html', context)
 
+class view_review(View):
+    def get(self, request):
+        user = request.user
+        context = { 
+            'reviews': review.objects.filter(ServiceProvider=user).order_by('id')
+        }
+        return render(request, 'ucnitk/view_review.html', context)
+
 # @login_required(login_url='/login/')
 class accepted_orders(View):
     def get(self, request):
@@ -68,7 +76,9 @@ class reviewCreateView(LoginRequiredMixin, CreateView):
     form_class = reviewForm
 
     def form_valid(self, form):
+        
         form.instance.Customer = self.request.user
+        form.instance.ServiceProvider=self.request.user
         return super().form_valid(form)
 
 def accept_order(request , pk):

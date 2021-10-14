@@ -54,5 +54,7 @@ class review(models.Model):
     Customer = models.ForeignKey(User, related_name='Review_Customer', on_delete=models.CASCADE)
     ServiceProvider = models.ForeignKey(User, related_name='Review_ServiceProvider', on_delete=models.CASCADE)
     ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
-    rating=models.IntegerField(choices=rate,default=1)
+    rating=models.IntegerField(default=1)
     review=models.CharField(max_length=250)
+    def get_absolute_url(self):
+        return reverse('review', kwargs={'pk': self.pk,'cus_id':self.Customer_id,'ser_id':self.ServiceProvider_id})
