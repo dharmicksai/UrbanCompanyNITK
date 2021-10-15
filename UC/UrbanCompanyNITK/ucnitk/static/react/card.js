@@ -14,7 +14,7 @@ class Card extends React.Component {
     //   return 'You liked this.';
     // }
     return (
-    <div className="card">
+    <div className="card" data-aos = "fade-up" data-aos-delay="100">
       <div className="card-header">
         <div className="card-title-group">
           <h5 className="card-title">Suggested For you</h5>

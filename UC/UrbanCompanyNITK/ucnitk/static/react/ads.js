@@ -12,7 +12,7 @@ class Ads extends React.Component {
   render() {
 
     return (
-    <div className="card">
+    <div className="card" data-aos = "fade-up" data-aos-delay="300">
       <div className="card-header">
         <div className="card-title-group">
           <h5 className="card-title">Web Club NITK</h5>
