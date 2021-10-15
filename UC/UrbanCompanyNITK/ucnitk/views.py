@@ -7,8 +7,11 @@ from django.views.generic import (
     CreateView
 )
 from .models import *
-from .forms import OrderForm,reviewForm
+from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -63,6 +66,41 @@ class accepted_orders(View):
 class OrderDetailView(DetailView):
     model = Order
 
+class your_issues(View):
+    def get(self, request):
+        user = request.user
+        context = {
+            'issues': Help.objects.filter(Customer = user)
+        }
+        return render(request, 'ucnitk/help_issues.html',context)
+
+class create_issue(View):
+    def get(self, request):
+        context = {
+            'is_form' : HelpForm,
+            'i_form' : ImageForm
+        }
+        return render(request, 'ucnitk/issue_new.html',context)
+
+    def post(self, request):
+
+        print(request.POST)
+        helpObj = Help.objects.create(Customer = User.objects.get(id = int(request.POST['Customer'])))
+        files = request.POST['file_field']
+
+        for f in files:
+            print("BRUH")
+            Images.objects.create(help = helpObj,image=f)
+
+        return redirect('issues')
+        
+        
+        
+        
+
+
+
+
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderForm
@@ -70,6 +108,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.Customer = self.request.user
         return super().form_valid(form)
+
     
 class reviewCreateView(LoginRequiredMixin, CreateView):
     model = review

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Order,review
+from .models import Order,review,Help,Images
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -11,6 +11,7 @@ class OrderForm(forms.ModelForm):
             "Description",
             "FromLocation"
         ]
+
 class reviewForm(forms.ModelForm):
     class Meta:
         model = review
@@ -19,3 +20,16 @@ class reviewForm(forms.ModelForm):
             "rating",
             "review"
         ]
+
+class HelpForm(forms.ModelForm):
+    class Meta:
+        model = Help
+        fields = [
+            "Customer",
+            "OrderWh",
+            "I_type",
+            "I_details"
+        ]
+
+class ImageForm(forms.Form):
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))

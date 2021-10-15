@@ -58,3 +58,28 @@ class review(models.Model):
     review=models.CharField(max_length=250)
     def get_absolute_url(self):
         return reverse('review', kwargs={'pk': self.pk,'cus_id':self.Customer_id,'ser_id':self.ServiceProvider_id})
+
+I_STATUS = (
+    ('Resolved','Resolved'),
+    ('Pending','Pending'),
+)
+
+
+I_TYPE = (
+    ('Order Not being Accepted/Delivered','Order Not being Accepted/Delivered'),
+    ('Issue With Service Provider','Issue With Service Provider'),
+    ('Order Says Delivered but have not recieved anything','Order Says Delivered but have not recieved anything'),
+    ('Other','Other')
+)
+
+class Help(models.Model):
+
+    Customer = models.ForeignKey(User, related_name='Help_Customer', on_delete=models.CASCADE)
+    OrderWh = models.ForeignKey(Order, related_name='Order_Wh', on_delete=models.CASCADE,default =1)
+    I_Status = models.CharField(max_length=15, choices= I_STATUS, default = 'Pending')
+    I_type = models.CharField(max_length=100, choices= I_TYPE, default = 'Other')
+    I_details = models.CharField(max_length=100, default = 'Nothing')
+
+class Images(models.Model):
+    help = models.ForeignKey(Help,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='help/',null=True,blank=True)
