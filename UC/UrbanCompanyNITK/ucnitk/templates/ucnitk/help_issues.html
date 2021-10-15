@@ -1,0 +1,34 @@
+{% extends "ucnitk/base.html" %}
+
+{% block content %}
+    {% for issue in issues %}
+
+        <div class="content-section " style="background-color:white; border-radius:10px; width:50%; margin:auto;margin-bottom:10px; padding:20px; border-style:ridge; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+            <article class="media content-section">
+                <div class="media-body">
+                <!-- <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ order.Customer}}</a>
+                    <small class="text-muted">{{ order.QueuedTime}}</small>
+                </div> -->
+                <div class = "article-metadata">
+                    <a class = "mr-2">{{issue.I_Status}}</a>
+                </div>
+
+                <h4><a class="article-title">{{issue.I_type}}</a></h4>
+                <p class="article-content">{{ issue.I_details}}</p>
+                <p class="article-content">{{ issue.OrderWh.ServiceType}}</p>
+        
+                </div>
+            </article>
+            </div>
+
+    {% endfor %}
+
+    <div class="text-center text-lg-start">
+        <a href="{% url 'create_issue' %}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+          <span>New Issue</span>
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+{% endblock content %}
