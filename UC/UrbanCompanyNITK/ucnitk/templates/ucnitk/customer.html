@@ -55,13 +55,13 @@
 
 
 
-
+          {% if user.is_authenticated%}
           <li> <a class="nav-item nav-link" href="{% url 'ucnitk' %}">Home</a></li>
           <li><a class="nav-item nav-link" href="{% url 'your-orders' %}">Your Orders</a></li>
           <li><a class="nav-item nav-link" href="{% url 'accepted-orders' %}">Accepted Orders</a></li>
           <li><a class="nav-item nav-link" href="{% url 'service-provider' %}">Provide Service</a></li>
 
-          {% if user.is_authenticated%}
+
           <li><a class="nav-item nav-link" style="font-color: white" href="{% url 'profile' %}">Profile</a></li>
           <li><a class="nav-item nav-link">
             <form action="{% url  'logout' %}" method="POST">
