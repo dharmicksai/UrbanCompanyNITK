@@ -32,9 +32,16 @@ rate= (('1',1),
 ('3',3),
 ('4',4),
 ('5',5))
+
+payment_status_choices = (
+    (1, 'SUCCESS'),
+    (2, 'FAILURE' ),
+    (3, 'PENDING'),
+)
+
 class Order(models.Model):
     Customer = models.ForeignKey(User, related_name='Customer', on_delete=models.CASCADE)
-    ServiceProvider = models.ForeignKey(User, related_name='ServiceProvider', on_delete=models.CASCADE)
+    ServiceProvider = models.ForeignKey(User, related_name='ServiceProvider', on_delete=models.CASCADE, null=True, blank=True)
     Price = models.IntegerField(default= 100)
     FromLocation = models.TextField()
     Description = models.TextField()
@@ -44,6 +51,11 @@ class Order(models.Model):
     ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
     PreferredTime = models.CharField(max_length=15, choices= TIME_CHOICES, default = 'Anytime')
     Status = models.CharField(max_length=15, default = 'Not Accepted')
+    #Payment Fields
+    payment_status = models.IntegerField(choices = payment_status_choices, default=3)
+    razorpay_order_id = models.CharField(max_length=500, null=True, blank=True)
+    razorpay_payment_id = models.CharField(max_length=500, null=True, blank=True)
+    razorpay_signature = models.CharField(max_length=500, null=True, blank=True)
     
     def get_absolute_url(self):
         return reverse('order-detail', kwargs={'pk': self.pk})

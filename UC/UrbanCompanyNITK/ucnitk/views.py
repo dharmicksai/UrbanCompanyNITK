@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views import View
 from django.core.mail import EmailMessage
@@ -9,6 +10,12 @@ from django.views.generic import (
 from .models import *
 from .forms import OrderForm,reviewForm
 from django.contrib.auth.decorators import login_required
+
+#for payments
+from django.http import HttpResponse
+from django.contrib.sites.shortcuts import get_current_site
+from django.views.decorators.csrf import csrf_exempt
+import razorpay
 
 # Create your views here.
 
@@ -60,8 +67,73 @@ class accepted_orders(View):
         }
         return render(request, 'ucnitk/accepted_orders.html', context)
 
-class OrderDetailView(DetailView):
-    model = Order
+razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_ID, settings.RAZORPAY_ACCOUNT_ID)) #('rzp_test_A2y42To2vFRXP4', 'AgR6rEINvIAhEEU2aJn2RH6e'))
+#class OrderDetailView(DetailView):
+    #model = Order
+
+@login_required
+def order_detail(request, pk):
+    order = Order.objects.filter(id = pk)[0]
+
+    #creating razorpay order
+    order_currency = 'INR'
+    callback_url = 'http://'+ str(get_current_site(request))+"/handlerequest/"
+    notes = {'order-type': order.ServiceType, 'description':order.Description}
+    razorpay_order = razorpay_client.order.create(dict(amount=order.Price*100, currency=order_currency, notes = notes,  payment_capture='0'))
+    order.razorpay_order_id = razorpay_order['id']
+    order.save()
+
+    context ={
+        'order' : order,
+        'object' : order
+    }
+    context['order_id'] = razorpay_order['id']
+    context['final_price'] = order.Price
+    context['razorpay_merchant_id'] = settings.RAZORPAY_ID
+    context['callback_url'] = callback_url
+
+    return render(request, 'ucnitk/order_detail.html', context)
+
+@csrf_exempt
+def handlerequest(request):
+    if request.method == "POST":
+        try:
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            order_id = request.POST.get('razorpay_order_id','')
+            signature = request.POST.get('razorpay_signature','')
+            params_dict = { 
+            'razorpay_order_id': order_id, 
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+            }
+            try:
+                order = Order.objects.get(razorpay_order_id=order_id)
+            except:
+                return HttpResponse("505 Not Found")
+            order.razorpay_payment_id = payment_id
+            order.razorpay_signature = signature
+            order.save()
+            result = razorpay_client.utility.verify_payment_signature(params_dict)
+
+            if result==None:
+                amount = order.Price*100
+                try:
+                    razorpay_client.payment.capture(payment_id, amount)
+                    order.payment_status = 1
+                    order.Status = 'Completed'
+                    order.save()
+                    return HttpResponse("Payment Successful")
+                except:
+                    order.payment_status = 2
+                    order.save()
+                    return HttpResponse("Payment Failed")
+            else:
+                order.payment_status = 2
+                order.save()
+                return HttpResponse("Payment Failed")
+        except:
+            return HttpResponse("505 not found")
+
 
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order

@@ -8,7 +8,7 @@ urlpatterns = [
     path('add-something', views.add_something, name = "add-something"),
     # path('order-service', views.order_service, name = "order-service"),
     path('service-provider', service_provider.as_view(), name = "service-provider"),
-    path('order/<int:pk>/', OrderDetailView.as_view(), name='order-detail'),
+    path('order/<int:pk>/', views.order_detail, name='order-detail'),
     path('order/new/', OrderCreateView.as_view(), name='order-create'),
     path('review/<int:pk>/<int:ser_id>/<int:cus_id>/', reviewCreateView.as_view(), name='review'),
     path('your-orders', your_orders.as_view(), name = "your-orders"),
@@ -18,4 +18,7 @@ urlpatterns = [
     path('cancel_order/<int:pk>/', views.cancel_order, name='cancel-order'),
     path('finish_order/<int:pk>/', views.finish_order, name='finish-order'),
     path('delete_order/<int:pk>/', views.delete_order, name='delete-order'),
+
+    #payment callback handler
+    path('handlerequest/', views.handlerequest, name = 'handlerequest'),
 ]
