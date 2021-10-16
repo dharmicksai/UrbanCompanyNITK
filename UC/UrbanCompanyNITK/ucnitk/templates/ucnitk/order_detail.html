@@ -53,7 +53,7 @@
 
       {% elif user == object.Customer and object.Status == 'Completed' %}
           <!-- Give Review button here -->
-          <a class="btn btn-primary" href="{% url 'review' object.id object.Customer_id object.ServiceProvider_id %}" >Review</a>
+          <a class="btn btn-primary" href="{% url 'review' object.id %}" >Review</a>
           <small class="text-muted">Order Completed : {{ order.CompletedTime}}</small>
 
       {% elif user == object.ServiceProvider and object.Status == 'Accepted' %}
