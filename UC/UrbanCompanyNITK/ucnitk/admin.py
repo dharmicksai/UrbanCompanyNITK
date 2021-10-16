@@ -5,5 +5,5 @@ from .models import *
 admin.site.register(Service)
 admin.site.register(Order)
 admin.site.register(Images)
-admin.site.register(review)
+
 admin.site.register(Help)
