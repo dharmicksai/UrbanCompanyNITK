@@ -65,6 +65,7 @@
           <li><a class="nav-item nav-link" href="{% url 'accepted-orders' %}">Accepted Orders</a></li>
           <li><a class="nav-item nav-link" href="{% url 'service-provider' %}">Provide Service</a></li>
           <li><a class="nav-item nav-link" href="{% url 'view_review' %}">Reviews</a></li>
+          <li><a class="nav-item nav-link" href="{% url 'inbox' %}">Inbox</a></li>
           <li><a class="nav-item nav-link" style="font-color: white" href="{% url 'profile' %}">Profile</a></li>
           <li><a class="nav-item nav-link">
             <form action="{% url  'logout' %}" method="POST">
@@ -99,7 +100,7 @@
       </div>
       <div class="clearfix"></div>
     </div>
-  
+
 
 
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -121,12 +122,12 @@
 
       <!-- React & ReactDOM CDN Links -->
       <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-      <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script> 
+      <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
       <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 
       {% block extra_js %}
       {% endblock %}
-      
+
 
     </body>
     {% block js %}
