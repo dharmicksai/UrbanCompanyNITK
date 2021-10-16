@@ -53,6 +53,18 @@ class view_review(View):
             'reviews': review.objects.filter(ServiceProvider=user).order_by('id')
         }
         return render(request, 'ucnitk/view_review.html', context)
+def review(request,pk):
+    if request.method == "POST":
+         order = Order.objects.filter(id = pk)[0]
+         order.rating=request.POST['rating']
+         order.review=request.POST['review']
+         
+         order.save()
+         return redirect('your-orders')
+    else:
+         order = Order.objects.filter(id=pk)[0]
+
+         return render(request, 'ucnitk/review.html',{"pk":order.id})
 
 # @login_required(login_url='/login/')
 class accepted_orders(View):
@@ -110,15 +122,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     
-class reviewCreateView(LoginRequiredMixin, CreateView):
-    model = review
-    form_class = reviewForm
 
-    def form_valid(self, form):
-        
-        form.instance.Customer = self.request.user
-        form.instance.ServiceProvider=self.request.user
-        return super().form_valid(form)
 
 def accept_order(request , pk):
     order = Order.objects.filter(id = pk)[0]
