@@ -44,20 +44,14 @@ class Order(models.Model):
     ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
     PreferredTime = models.CharField(max_length=15, choices= TIME_CHOICES, default = 'Anytime')
     Status = models.CharField(max_length=15, default = 'Not Accepted')
+    rating=models.IntegerField(default=1)
+    review=models.CharField(max_length=250,null=True,blank=True)
     
     def get_absolute_url(self):
         return reverse('order-detail', kwargs={'pk': self.pk})
 
 
-class review(models.Model):
-    Order.id= models.ForeignKey(Order, related_name='id', on_delete=models.CASCADE)
-    Customer = models.ForeignKey(User, related_name='Review_Customer', on_delete=models.CASCADE)
-    ServiceProvider = models.ForeignKey(User, related_name='Review_ServiceProvider', on_delete=models.CASCADE)
-    ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
-    rating=models.IntegerField(default=1)
-    review=models.CharField(max_length=250)
-    def get_absolute_url(self):
-        return reverse('review', kwargs={'pk': self.pk,'cus_id':self.Customer_id,'ser_id':self.ServiceProvider_id})
+
 
 I_STATUS = (
     ('Resolved','Resolved'),
