@@ -217,7 +217,7 @@ def accept_order(request , pk):
     )
     email.send(fail_silently=False)
 
-    return redirect('accepted-orders')
+    return redirect('/order/' + str(pk))
 
 def cancel_order(request, pk):
     order = Order.objects.filter(id = pk)[0]
@@ -240,7 +240,7 @@ def cancel_order(request, pk):
     )
     email.send(fail_silently=False)
 
-    return redirect('your-orders')
+    return redirect('service-provider')
 
 def finish_order(request, pk):
     order = Order.objects.filter(id = pk)[0]
@@ -262,7 +262,7 @@ def finish_order(request, pk):
     )
     email.send(fail_silently=False)
 
-    return redirect('accepted-orders')
+    return redirect('/order/' + str(pk))
 
 def delete_order(request, pk):
     order = Order.objects.filter(id=pk)[0]
