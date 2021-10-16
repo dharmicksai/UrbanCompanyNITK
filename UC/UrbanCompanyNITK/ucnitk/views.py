@@ -57,7 +57,7 @@ class view_review(View):
     def get(self, request):
         user = request.user
         context = { 
-            'reviews': review.objects.filter(ServiceProvider=user).order_by('id')
+            'reviews': Order.objects.filter(ServiceProvider=user).order_by('id')
         }
         return render(request, 'ucnitk/view_review.html', context)
 def review(request,pk):
