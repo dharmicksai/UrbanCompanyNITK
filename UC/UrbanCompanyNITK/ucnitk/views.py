@@ -8,8 +8,11 @@ from django.views.generic import (
     CreateView
 )
 from .models import *
-from .forms import OrderForm,reviewForm
+from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
 
 #for payments
 from django.http import HttpResponse
@@ -57,6 +60,18 @@ class view_review(View):
             'reviews': review.objects.filter(ServiceProvider=user).order_by('id')
         }
         return render(request, 'ucnitk/view_review.html', context)
+def review(request,pk):
+    if request.method == "POST":
+         order = Order.objects.filter(id = pk)[0]
+         order.rating=request.POST['rating']
+         order.review=request.POST['review']
+         
+         order.save()
+         return redirect('your-orders')
+    else:
+         order = Order.objects.filter(id=pk)[0]
+
+         return render(request, 'ucnitk/review.html',{"pk":order.id})
 
 # @login_required(login_url='/login/')
 class accepted_orders(View):
@@ -135,6 +150,41 @@ def handlerequest(request):
             return HttpResponse("505 not found")
 
 
+class your_issues(View):
+    def get(self, request):
+        user = request.user
+        context = {
+            'issues': Help.objects.filter(Customer = user)
+        }
+        return render(request, 'ucnitk/help_issues.html',context)
+
+class create_issue(View):
+    def get(self, request):
+        context = {
+            'is_form' : HelpForm,
+            'i_form' : ImageForm
+        }
+        return render(request, 'ucnitk/issue_new.html',context)
+
+    def post(self, request):
+
+        print(request.POST)
+        helpObj = Help.objects.create(Customer = User.objects.get(id = int(request.POST['Customer'])))
+        files = request.POST['file_field']
+
+        for f in files:
+            print("BRUH")
+            Images.objects.create(help = helpObj,image=f)
+
+        return redirect('issues')
+        
+        
+        
+        
+
+
+
+
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderForm
@@ -142,16 +192,9 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.Customer = self.request.user
         return super().form_valid(form)
-    
-class reviewCreateView(LoginRequiredMixin, CreateView):
-    model = review
-    form_class = reviewForm
 
-    def form_valid(self, form):
-        
-        form.instance.Customer = self.request.user
-        form.instance.ServiceProvider=self.request.user
-        return super().form_valid(form)
+    
+
 
 def accept_order(request , pk):
     order = Order.objects.filter(id = pk)[0]

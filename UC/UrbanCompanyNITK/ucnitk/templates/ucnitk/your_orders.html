@@ -1,5 +1,5 @@
 {% extends "ucnitk/base.html" %}
-
+{% load static %}
 {% block content %}
     {% for order in orders %}
 
@@ -31,3 +31,15 @@
     {% endfor %}
 
 {% endblock content %}
+
+{% block sidebar %}
+
+<div id='sidebar_offers'></div>
+<br />
+<div id = 'sidebar_ads'></div>
+{% endblock sidebar%}
+
+{% block extra_js %}
+<script src="{% static '/react/card.js' %}" type="text/babel"></script>
+<script src="{% static '/react/ads.js' %}" type="text/babel"></script>
+{% endblock extra_js %}

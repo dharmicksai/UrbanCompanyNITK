@@ -29,6 +29,9 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/base.css' %}" rel="stylesheet">
+  <link href="{% static 'react/card.css' %}" rel="stylesheet">
+  <link href="{% static 'react/ads.css' %}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: FlexStart - v1.6.0
@@ -87,20 +90,17 @@
 
 
 
-    <!-- <main role="main" class="container"> -->
-      <!-- <div class="row"> -->
-        <div class="nothing" style="margin-top:100px">
-          <!-- {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %} -->
-          {% block content %}{% endblock %}
-        </div>
-      <!-- </div> -->
-    <!-- </main> -->
+    <div class = "nothing">
+      <div class="left" style="margin-top:100px">
+        {% block content %}{% endblock %}
+      </div>
+      <div class = "sidebar" style="margin-top:100px">
+        {% block sidebar %}{% endblock %}
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  
+
 
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -115,6 +115,18 @@
 
       <!-- Template Main JS File -->
       <script src="{% static 'assets/js/main.js' %}"></script>
+
+      <!-- Babel CDN Link -->
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+      <!-- React & ReactDOM CDN Links -->
+      <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+      <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script> 
+      <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+      {% block extra_js %}
+      {% endblock %}
+      
 
     </body>
     {% block js %}

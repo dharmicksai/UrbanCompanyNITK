@@ -56,17 +56,36 @@ class Order(models.Model):
     razorpay_order_id = models.CharField(max_length=500, null=True, blank=True)
     razorpay_payment_id = models.CharField(max_length=500, null=True, blank=True)
     razorpay_signature = models.CharField(max_length=500, null=True, blank=True)
+    rating=models.IntegerField(default=1)
+    review=models.CharField(max_length=250,null=True,blank=True)
     
     def get_absolute_url(self):
         return reverse('order-detail', kwargs={'pk': self.pk})
 
 
-class review(models.Model):
-    Order.id= models.ForeignKey(Order, related_name='id', on_delete=models.CASCADE)
-    Customer = models.ForeignKey(User, related_name='Review_Customer', on_delete=models.CASCADE)
-    ServiceProvider = models.ForeignKey(User, related_name='Review_ServiceProvider', on_delete=models.CASCADE)
-    ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
-    rating=models.IntegerField(default=1)
-    review=models.CharField(max_length=250)
-    def get_absolute_url(self):
-        return reverse('review', kwargs={'pk': self.pk,'cus_id':self.Customer_id,'ser_id':self.ServiceProvider_id})
+
+
+I_STATUS = (
+    ('Resolved','Resolved'),
+    ('Pending','Pending'),
+)
+
+
+I_TYPE = (
+    ('Order Not being Accepted/Delivered','Order Not being Accepted/Delivered'),
+    ('Issue With Service Provider','Issue With Service Provider'),
+    ('Order Says Delivered but have not recieved anything','Order Says Delivered but have not recieved anything'),
+    ('Other','Other')
+)
+
+class Help(models.Model):
+
+    Customer = models.ForeignKey(User, related_name='Help_Customer', on_delete=models.CASCADE)
+    OrderWh = models.ForeignKey(Order, related_name='Order_Wh', on_delete=models.CASCADE,default =1)
+    I_Status = models.CharField(max_length=15, choices= I_STATUS, default = 'Pending')
+    I_type = models.CharField(max_length=100, choices= I_TYPE, default = 'Other')
+    I_details = models.CharField(max_length=100, default = 'Nothing')
+
+class Images(models.Model):
+    help = models.ForeignKey(Help,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='help/',null=True,blank=True)
