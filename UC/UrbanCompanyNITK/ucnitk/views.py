@@ -137,15 +137,21 @@ def handlerequest(request):
                     order.payment_status = 1
                     order.Status = 'Completed'
                     order.save()
-                    return HttpResponse("Payment Successful")
+                    messages.success(request, 'Payment through razorpay payment gateway is successful')
+                    return redirect('/order/'+str(order.id))
+                    #return HttpResponse("Payment Successful")
                 except:
                     order.payment_status = 2
                     order.save()
-                    return HttpResponse("Payment Failed")
+                    messages.error(request, 'Payment through razorpay payment gateway has failed\n'+'Any deductions from you account will be reibursed within the next 2-3days')
+                    return redirect('/order/'+str(order.id))
+                    #return HttpResponse("Payment Failed")
             else:
                 order.payment_status = 2
                 order.save()
-                return HttpResponse("Payment Failed")
+                messages.error(request, 'Payment through razorpay payment gateway has failed\n'+'Any deductions from you account will be reibursed within the next 2-3days')
+                return redirect('/order/'+str(order.id))
+                #return HttpResponse("Payment Failed")
         except:
             return HttpResponse("505 not found")
 
