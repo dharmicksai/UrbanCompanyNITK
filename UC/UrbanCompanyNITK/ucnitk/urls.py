@@ -20,6 +20,7 @@ urlpatterns = [
     path('cancel_order/<int:pk>/', views.cancel_order, name='cancel-order'),
     path('finish_order/<int:pk>/', views.finish_order, name='finish-order'),
     path('delete_order/<int:pk>/', views.delete_order, name='delete-order'),
+    path('confirm_cash_payment/<int:pk>/', views.confirm_cash_payment, name='confirm-cash-payment'),
 
     #payment callback handler
     path('handlerequest/', views.handlerequest, name = 'handlerequest'),

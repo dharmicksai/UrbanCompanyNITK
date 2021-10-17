@@ -39,6 +39,13 @@ payment_status_choices = (
     (3, 'PENDING'),
 )
 
+STATUS_CHOICES = (
+    ('Not Accepted', 'Not Accepted'),
+    ('Accepted', 'Accepted'),
+    ('Pending Payment', 'Pending Payment'),
+    ('Completed', 'Completed')
+)
+
 class Order(models.Model):
     Customer = models.ForeignKey(User, related_name='Customer', on_delete=models.CASCADE)
     ServiceProvider = models.ForeignKey(User, related_name='ServiceProvider', on_delete=models.CASCADE, null=True, blank=True)
@@ -48,9 +55,10 @@ class Order(models.Model):
     QueuedTime = models.DateTimeField(default=timezone.now)
     AcceptedTime = models.DateTimeField(default=timezone.now)
     CompletedTime = models.DateTimeField(default=timezone.now)
-    ServiceType = models.CharField(max_length=15, choices= SERVICE_CHOICES, default = 'Laundry')
-    PreferredTime = models.CharField(max_length=15, choices= TIME_CHOICES, default = 'Anytime')
-    Status = models.CharField(max_length=15, default = 'Not Accepted')
+    ServiceType = models.CharField(max_length=15, choices = SERVICE_CHOICES, default = 'Laundry')
+    PreferredTime = models.CharField(max_length=15, choices = TIME_CHOICES, default = 'Anytime')
+    Status = models.CharField(max_length=15, choices = STATUS_CHOICES,default = 'Not Accepted')
+
     #Payment Fields
     payment_status = models.IntegerField(choices = payment_status_choices, default=3)
     razorpay_order_id = models.CharField(max_length=500, null=True, blank=True)

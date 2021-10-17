@@ -268,3 +268,10 @@ def delete_order(request, pk):
     order = Order.objects.filter(id=pk)[0]
     order.delete()
     return redirect('your-orders')
+
+def confirm_cash_payment(request, pk):
+    order = Order.objects.filter(id=pk)[0]
+    order.payment_status = 3
+    order.Status = 'Completed'
+    order.save()
+    return redirect('/order/' + str(pk))
