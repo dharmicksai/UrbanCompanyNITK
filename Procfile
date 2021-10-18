@@ -1,0 +1,1 @@
+web: gunicorn UrbanCompanyNITK.wsgi --log-file -
