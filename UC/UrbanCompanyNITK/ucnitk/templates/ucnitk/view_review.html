@@ -7,16 +7,20 @@
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="#">customer: {{ review.Customer}}</a>
-                <small class="text-muted">order:{{ review.id}}</small>
-                <a class="mr-2" href="#">rated:{{ review.rating}}</a>
+                <a class="mr-2" href="#"><h3 style="color: black">customer: {{ review.Customer}}</h3></a>
+                <small class="text-muted" >order #{{ review.id}} </small>
+                <a class="mr-2" href="#"><b style:"color: aqua">rated:{{ review.rating}} star</b></a>
             </div>
             <div class="article-metadata">
-                <a class="mr-2">review:{{review.review}}</a>
-               
+                <a class="mr-2"><b><i style="color: blueviolet">order description:{{review.Description}}</i></b></a>
+
+            </div>
+            <div class="article-metadata">
+                <a class="mr-2"><b><i style="color: red">review:{{review.review}}</i></b></a>
+
             </div>
 
-            
+
         </div>
     </article>
 </div>
