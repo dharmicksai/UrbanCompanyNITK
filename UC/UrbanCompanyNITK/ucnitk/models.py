@@ -82,4 +82,4 @@ class Help(models.Model):
 
 class Images(models.Model):
     help = models.ForeignKey(Help,on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='help/',null=True,blank=True)
+    image = models.ImageField(upload_to='help',null=True,blank=True)

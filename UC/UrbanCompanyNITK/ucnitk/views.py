@@ -77,7 +77,7 @@ class your_issues(View):
 class create_issue(View):
     def get(self, request):
         context = {
-            'is_form' : HelpForm,
+            'is_form' : HelpForm(initial = {'Customer' : request.user}),
             'i_form' : ImageForm
         }
         return render(request, 'ucnitk/issue_new.html',context)
@@ -85,11 +85,10 @@ class create_issue(View):
     def post(self, request):
 
         print(request.POST)
-        helpObj = Help.objects.create(Customer = User.objects.get(id = int(request.POST['Customer'])))
+        helpObj = Help.objects.create(Customer = User.objects.get(id = int(request.POST['Customer'])),OrderWh = Order.objects.get(id = int(request.POST['OrderWh'])),I_type = request.POST['I_type'],I_details = request.POST['I_details'])
         files = request.POST['file_field']
 
         for f in files:
-            print("BRUH")
             Images.objects.create(help = helpObj,image=f)
 
         return redirect('issues')
