@@ -1,0 +1,29 @@
+{% extends "ucnitk/base.html" %}
+
+{% block content %}
+    {% for review in reviews %}
+
+<div class="content-section " style="background-color:white; border-radius:10px; width:50%; margin:auto;margin-bottom:10px; padding:20px; border-style:ridge; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#"><h3 style="color: black">customer: {{ review.Customer}}</h3></a>
+                <small class="text-muted" >order #{{ review.id}} </small>
+                <a class="mr-2" href="#"><b style:"color: aqua">rated:{{ review.rating}} star</b></a>
+            </div>
+            <div class="article-metadata">
+                <a class="mr-2"><b><i style="color: blueviolet">order description:{{review.Description}}</i></b></a>
+
+            </div>
+            <div class="article-metadata">
+                <a class="mr-2"><b><i style="color: red">review:{{review.review}}</i></b></a>
+
+            </div>
+
+
+        </div>
+    </article>
+</div>
+    {% endfor %}
+
+{% endblock content %}

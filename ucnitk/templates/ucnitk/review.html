@@ -1,0 +1,36 @@
+{% extends "ucnitk/base.html" %}
+
+{% block content %}
+<div class="content-section " style="background-color:white; border-radius:10px; width:50%; margin:auto; padding:20px; border-style:ridge; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+    <form role="form" method="POST">
+        {% csrf_token %}
+        <fieldset>
+
+            <legend class="border-bottom mb-4">review order</legend>
+            <div class="form-group">
+               
+                <input type="number"
+                       min="1"
+                       max="5"
+                       id="rating"
+                       class="form-control" 
+                       placeholder="rate(1 to 5)"
+                       name="rating"
+                       style="width:320px;"
+                       required />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="text" class="form-control" id="review" name="review"  style="width:420px; height:220px; " placeholder="Enter Feedback">
+            </div><br />
+
+
+            <button class="btn btn-outline-info" type="submit">submit</button>
+
+        </fieldset>
+    </form>
+</div>
+
+
+
+{% endblock content %}
