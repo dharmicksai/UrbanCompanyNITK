@@ -25,15 +25,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '3*^yg-_y@fjwi%vv)ptrr@p#enet1mp%7g=_@rvamzz3zqzbe+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['urbancompany-nitk.herokuapp.com']
+# Use in Production
+# ALLOWED_HOSTS = ['urbancompany-nitk.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
+    # Use in Production
+    # 'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +51,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # Use in Production
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,16 +87,18 @@ WSGI_APPLICATION = 'UrbanCompanyNITK.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # Use in Production
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'UCDB',
         'USER': 'root',
         'PASSWORD':'password',
         'HOST': 'localhost',
     }
 }
-
-db_from_env = dj_database_url.config(conn_max_age= 500)
-DATABASES['default'].update(db_from_env)
+# Use in Production
+# db_from_env = dj_database_url.config(conn_max_age= 500)
+# DATABASES['default'].update(db_from_env)
 
 
 # Password validation
