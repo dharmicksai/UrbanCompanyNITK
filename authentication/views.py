@@ -61,7 +61,7 @@ class RegistrationView(View):
                 p = Profile.objects.create(user=user,usertype = request.POST['usertype'],service = request.POST['service'])
                 p.save()
 
-                
+
 
                 user.save()
                 # p.save()
@@ -157,8 +157,6 @@ class LoginView(View):
             if user:
                 if user.is_active:
                     auth.login(request, user)
-                    messages.success(request, 'Welcome, ' +
-                                     user.username+' you are now logged in')
                     return redirect('/')
                 messages.error(
                     request, 'Account is not active,please check your email')

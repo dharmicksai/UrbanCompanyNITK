@@ -1,72 +1,314 @@
 {% extends 'ucnitk/base.html' %}
-
 {% load static %}
-
 {% block content %}
+<style media="screen">
+$blue: #74b9ff;
 
-<style>
-.parent {
-  margin: auto;
-  padding: 2rem 2rem;
+body {
+  //background-image: url('https://images.unsplash.com/photo-1560568082-c15188aa6510?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80');
+  background-color: #3498db;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-.child {
-  display: inline-block;
-  padding: 1rem 1rem;
-  vertical-align: middle;
+
+.container {
+  /* margin: 60px auto; */
+  background: #fff;
+  padding: 0;
+  border-radius: 7px;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
+}
+
+.settings-tray {
+  background: #eee;
+  padding: 10px 15px;
+  border-radius: 7px;
+
+  .no-gutters {
+    padding: 0;
+  }
+
+  &--right {
+    float: right;
+
+    i {
+      margin-top: 10px;
+      font-size: 25px;
+      color: grey;
+      margin-left: 14px;
+      transition: .3s;
+
+      &:hover {
+        color: $blue;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+input {
+  border: none;
+  border-radius: 30px;
+  width: 80%;
+
+  &::placeholder {
+    color: #e3e3e3;
+    font-weight: 300;
+    margin-left: 20px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.friend-drawer {
+  padding: 10px 15px;
+  display: flex;
+  vertical-align: baseline;
+  background: #fff;
+  transition: .3s ease;
+
+  &--grey {
+    background: #eee;
+  }
+
+  .text {
+    margin-left: 12px;
+    width: 70%;
+
+    h6 {
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .time {
+    color: grey;
+  }
+
+  &--onhover:hover {
+    background: $blue;
+    cursor: pointer;
+
+    p,
+    h6,
+    .time {
+      color: #fff !important;
+    }
+  }
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+}
+
+.float-child {
+    float: left;
+    padding: 5px;
+}
+
+.float-child-child {
+    float: left;
+    padding: 5px;
+}
+
+hr {
+  margin: 5px auto;
+  width: 60%;
+}
+
+.chat-bubble {
+  padding: 10px 14px;
+  background: #eee;
+  margin: 10px 30px;
+  border-radius: 9px;
+  position: relative;
+  animation: fadeIn 1s ease-in;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-bottom: 0;
+    margin-top: -10px;
+  }
+
+  &--left {
+     &:after {
+      left: 0;
+      border-right-color: #eee;
+	    border-left: 0;
+      margin-left: -20px;
+    }
+  }
+
+  &--right {
+    &:after {
+      right: 0;
+      border-left-color: $blue;
+	    border-right: 0;
+      margin-right: -20px;
+    }
+  }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.offset-md-9 {
+  .chat-bubble {
+    background: $blue;
+    color: #fff;
+  }
+}
+
+.chat-box-tray {
+  background: #eee;
+  display: flex;
+  align-items: baseline;
+  padding: 10px 15px;
+  align-items: center;
+  margin-top: 19px;
+  bottom: 0;
+
+  input {
+    margin: 0 10px;
+    padding: 6px 2px;
+  }
+
+  i {
+    color: grey;
+    font-size: 30px;
+    vertical-align: middle;
+
+    &:last-of-type {
+      margin-left: 25px;
+    }
+  }
 }
 </style>
 
-<div class="parent" style="width:1100px;padding:10px; position:relative; border-style:groove">
-  `<div class="container text-center">
-    Inbox
-  </div>
-    <div class="child" style="width:30%">
-      Messages
-      {% for message in messages %}
-      <a class="{% if active_direct == message.user.username %}is-active{% endif %}" href="{% url 'directs' message.user.username %}">
-        <div class="container" style="padding:5px; border-bottom-style:solid">
-            {% if message.user.profile.image.url %}
-              <img src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
-            {% else %}
-              <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" style="border-radius:50px; width:50px">
-            {% endif %}
-              <small>@{{ message.user.username }}</small>
-            {% if message.unread %}
-              <i class="material-icons">mark_chat_unread</i> {{ message.unread }}
-            {% endif %}
-          </div>
-    </a>
-    {% endfor %}
+
+<div class="container">
+	<div class="row no-gutters">
+	  <div class="col-md-4 border-right">
+		<div class="settings-tray">
+      {% if message.user.profile.image.url %}
+        <img class="profile-image" src="{{ message.user.profile.image.url  }}" alt="image" style="margin-right:10px; border-radius:50px; width:50px">
+      {% else %}
+        <img class="profile-image" src="https://bulma.io/images/placeholders/96x96.png" alt="image" style="margin-right:10px; border-radius:50px; width:50px">
+      {% endif %}
     </div>
 
 
-    <div class="child" style="width:60%">
-
-        <div style="overflow-y: scroll; height: 500px">
-
-        {% for direct in directs %}
-        <div class="box">
-          <article class="media">
-            <div class="media-left">
-            </div>
-            <div class="media-content">
-              <div class="content" style="border-bottom-style:groove">
-                <p>
-                  <small>@{{ direct.sender.username }}</small>
-                </p>
-                {{ direct.body }}
-              </div>
-            </div>
-          </article>
+    {% for user in users %}
+    <div class="box">
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+              {% if user.profile.picture %}
+                <img src="{{ user.profile.picture.url }}" alt="Placeholder image">
+              {% else %}
+                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+              {% endif %}
+          </figure>
         </div>
-        {% endfor %}
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>{{ user.profile.first_name }} {{ user.profile.last_name }}</strong><small>@{{ user.username }}</small>
+            </p>
+            <a href="{% url 'newconversation' user.username %}" class="button is-info">Send a message!</a>
+          </div>
         </div>
+      </article>
+    </div>
+    {% endfor %}
 
-      <div id="parent">
+
+      {% for message in messages %}
+        <div class="friend-drawer friend-drawer--onhover " style="padding:5px; border-bottom-style:solid; border-radius:5px; margin:10px">
+          <a class="{% if active_direct == message.user.username %}is-active{% endif %}" href="{% url 'directs' message.user.username %}">
+            {% if message.user.profile.image.url %}
+              <img class="profile-image" src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
+            {% else %}
+              <img class="profile-image" src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" style="border-radius:50px; width:50px">
+            {% endif %}
+              <small>{{ message.user.username }}</small>
+            {% if message.unread %}
+              <i class="material-icons">mark_chat_unread</i> {{ message.unread }}
+            {% endif %}
+          </a>
+        </div>
+    {% endfor %}
+
+		<hr>
+	  </div>
+	  <div class="col-md-8">
+		<div class="settings-tray">
+			<div class="friend-drawer no-gutters friend-drawer--grey">
+        {% if message.user.profile.image.url %}
+          <img class="profile-image" src="{{ message.user.profile.image.url  }}" alt="image" style="margin-right:10px; border-radius:50px; width:50px">
+        {% else %}
+          <img class="profile-image" src="https://bulma.io/images/placeholders/96x96.png" alt="image" style="margin-right:10px; border-radius:50px; width:50px">
+        {% endif %}
+      <div class="text">
+			  <h6>{{ message.user.username }}</h6>
+			  <p class="text-muted">{{ message.user.bio }}</p>
+			</div>
+		  </div>
+		</div>
+		<div class="chat-panel" style="overflow-y: scroll; height: 500px; flex-direction: column-reverse;">
+
+      {% for direct in directs %}
+        {% if user.username == direct.sender.username %}
+    		  <div class="row no-gutters">
+    			<div class="col-md-3">
+    			  <div class="chat-bubble chat-bubble--right">
+    				{{ direct.body }}
+    			  </div>
+    			</div>
+    		  </div>
+        {% else %}
+          <div class="row no-gutters">
+    			<div class="col-md-3 offset-md-9">
+    			  <div class="chat-bubble chat-bubble--right">
+              {{ direct.body }}
+    			  </div>
+    			</div>
+    		  </div>
+        {% endif %}
+      {% endfor %}
+		</div>
+
+
+      <div class="float-container">
           <form role="form" method="POST" action="{% url 'send_direct' %}">
             {% csrf_token %}
           <article class="media">
-            <div id="child">
+            <div class="float-child">
               <p class="image is-64x64">
                 {% if message.user.profile.image.url %}
                   <img src="{{ message.user.profile.image.url  }}" alt="Placeholder image" style="border-radius:50px; width:50px">
@@ -75,14 +317,14 @@
                 {% endif %}
               </p>
             </div>
-            <div id="child">
+            <div class="float-child">
               <input type="hidden" name="to_user" value="{{ active_direct }}">
-              <div class="leftboxa">
+              <div class="float-child-child">
                 <p class="control">
-                  <textarea class="textarea" name="body" placeholder="Add a comment..."></textarea>
+                  <textarea class="form-group green-border-focus" name="body" placeholder="Add a comment..."></textarea>
                 </p>
               </div>
-              <div class="middleboxa">
+              <div class="float-child-child">
                 <div class="rightbox">
                   <div class="level-item">
                     <button type="submit" name="action" class="button is-info">Send</button>
@@ -93,11 +335,16 @@
           </article>
           </form>
         </div>
-    </div>
-</div>
 
-<div class="container" style="width:200px; position:fixed; right:100px; bottom:100px">
-  <a href="{% url 'usersearch' %}" class="button is-success">New message</a>
-</div>
+
+	  </div>
+	</div>
+  </div>
+
+
+  <div class="container" style="width:200px; right:100px; bottom:100px">
+    <a href="{% url 'usersearch' %}" class="button is-success">New message</a>
+  </div>
+
 
 {% endblock %}
