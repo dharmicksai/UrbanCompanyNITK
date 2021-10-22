@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 # Create your views here.
 
-@login_required
+@login_required(login_url='/authentication/login')
 def Inbox(request):
 	messages = Message.get_messages(user=request.user)
 	active_direct = None
@@ -37,7 +37,7 @@ def Inbox(request):
 
 	return HttpResponse(template.render(context, request))
 
-@login_required
+@login_required(login_url='/authentication/login')
 def UserSearch(request):
 	query = request.GET.get("q")
 	context = {}
@@ -58,7 +58,7 @@ def UserSearch(request):
 
 	return HttpResponse(template.render(context, request))
 
-@login_required
+@login_required(login_url='/authentication/login')
 def Directs(request, username):
 	user = request.user
 	messages = Message.get_messages(user=user)
@@ -80,7 +80,7 @@ def Directs(request, username):
 	return HttpResponse(template.render(context, request))
 
 
-@login_required
+@login_required(login_url='/authentication/login')
 def NewConversation(request, username):
 	from_user = request.user
 	body = ''
@@ -92,7 +92,7 @@ def NewConversation(request, username):
 		Message.send_message(from_user, to_user, body)
 	return redirect('inbox')
 
-@login_required
+@login_required(login_url='/authentication/login')
 def SendDirect(request):
 	from_user = request.user
 	to_user_username = request.POST.get('to_user')
