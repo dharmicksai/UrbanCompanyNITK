@@ -44,7 +44,6 @@ class service_provider(View):
         }
         return render(request, 'ucnitk/service_provider.html', context)
 
-# @login_required(login_url='/login/')
 class your_orders(View):
     def get(self, request):
         user = request.user
@@ -60,6 +59,8 @@ class view_review(View):
             'reviews': Order.objects.filter(ServiceProvider=user).order_by('id')
         }
         return render(request, 'ucnitk/view_review.html', context)
+
+@login_required(login_url='/authentication/login')
 def review(request,pk):
     if request.method == "POST":
          order = Order.objects.filter(id = pk)[0]
@@ -73,7 +74,6 @@ def review(request,pk):
 
          return render(request, 'ucnitk/review.html',{"pk":order.id})
 
-# @login_required(login_url='/login/')
 class accepted_orders(View):
     def get(self, request):
         user = request.user
@@ -86,7 +86,7 @@ razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_ID, settings.RAZORPAY_
 #class OrderDetailView(DetailView):
     #model = Order
 
-@login_required
+@login_required(login_url='/authentication/login')
 def order_detail(request, pk):
     order = Order.objects.filter(id = pk)[0]
 
