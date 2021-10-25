@@ -257,7 +257,7 @@ def finish_order(request, pk):
     email_subject = 'Order for ' + order.ServiceType + " has been Finished by "+ request.user.username
 
     email_body = 'Hi ' +order.Customer.username + '\nOrder for ' + order.ServiceType + " has been Finished by "+ request.user.username
-    email_body += '\nOrder Status : Awaiting Payment  \nOrder Description: '+ order.Description
+    email_body += '\nOrder Status : Awaiting Payment of Rs '+ str(order.Price) +'\nOrder Description: '+ order.Description
     
     email = EmailMessage(
         email_subject,
@@ -279,4 +279,18 @@ def confirm_cash_payment(request, pk):
     order.payment_status = 3
     order.Status = 'Completed'
     order.save()
+
+    email_subject = "Payment for " + order.ServiceType +" provided by "+ request.user.username +" is Succesfull"
+
+    email_body = 'Payment of Rs '+str(order.Price) +' Succesfull for ' + order.ServiceType + " provided by "+ request.user.username
+    email_body += '\nOrder Status : Complemted  \nOrder Description: '+ order.Description
+    
+    email = EmailMessage(
+        email_subject,
+        email_body,
+        'noreply@semycolon.com',
+        [order.Customer.email],
+    )
+    email.send(fail_silently=False)
+
     return redirect('/order/' + str(pk))
