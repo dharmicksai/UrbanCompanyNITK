@@ -20,7 +20,7 @@
 
 
       </div>
-      <h4><a class="article-title" href="#">{{ object.ServiceType }}</a></h2>
+      <h4><a class="article-title" href="#">{{ object.ServiceType }}</a></h4>
       <p>Order {{order.id}}</p>
       <p class="article-content">Description : {{ object.Description}}</p>
       <p class="article-content">Preferred Time : {{ object.PreferredTime}}</p>
@@ -28,7 +28,7 @@
       <!-- ####### Add Appropriate button based on the status of the order ############-->
        {% if user == object.Customer %}
         <a class="btn btn-primary" href="{% url 'issues' %}">help and support</a>
-    
+
       {% endif %}
 
       {% if user != object.Customer and not object.ServiceProvider %}
@@ -45,7 +45,7 @@
           <!-- Or provide a button for messaging -->
 
       {% elif user == object.Customer and object.Status == 'Pending Payment' %}
-          
+
             <!-- Make Payment -->
             <br><br>
             <h6>Quoted price : INR {{object.Price}} </h6>
@@ -58,7 +58,7 @@
           <br>
           <small class="text-muted">Order Completed : {{ order.CompletedTime}}</small>
           <p>Payment Method : Cash</p>
-      
+
       {% elif user == object.Customer and object.Status == 'Completed' %}
           <!-- Give Review button here -->
           <a class="btn btn-primary" href="{% url 'review' object.id %}" >Review</a>
@@ -72,16 +72,16 @@
           <br>
           <form action="{% url 'finish-order' object.id %}" method="post">
             {% csrf_token %}
-            
+
             <div class="form-group">
                 <label for="price">Quote price for Service :</label>
-                <input 
-                    type="number" 
-                    min="10" 
-                    max="500" 
+                <input
+                    type="number"
+                    min="10"
+                    max="500"
                     id="price"
-                    placeholder="Quote Price" 
-                    name="price" 
+                    placeholder="Quote Price"
+                    name="price"
                     style="width:120px;"
                     required
                 />
@@ -113,7 +113,7 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   var options = {
-    "key": "{{razorpay_merchant_id}}", 
+    "key": "{{razorpay_merchant_id}}",
     "amount": "{% widthratio final_price 1 100 %}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     "currency": "INR",
     "name": "UC NITK",
