@@ -2,6 +2,15 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+{% if messages %}
+<div class="messages">
+  {% for message in messages %}
+  <div{% if message.tags %} class="alert alert-sm alert-{{ message.tags }}"{% endif %}>
+      {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
 <div class="content-section " style="background-color:white; border-radius:10px; width:50%; margin:auto; padding:20px; border-style:ridge; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
 
     <div class="content-section">
