@@ -1,8 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from django.urls.base import resolve
 from .models import *
 from .views import *
+import json
 
 # Create your tests here.
 class TestUrls(TestCase):
@@ -47,3 +48,17 @@ class TestUrls(TestCase):
         print(f'\nfound url for view_review')
         self.assertEquals(resolve(url).func.view_class, view_review)
         print('url for view_review tested.')
+
+#define next test
+class TestViews(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.customer_url = reverse('ucnitk')
+        
+    def test_customer_GET(self):
+        response = self.client.get(self.customer_url)
+        print(f'\nGot response for home page view : {response}')
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'ucnitk/customer.html')
+        print('Home page view tested')
