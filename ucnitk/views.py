@@ -203,6 +203,10 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
 def accept_order(request , pk):
     order = Order.objects.filter(id = pk)[0]
+
+    if order.Status != 'Not Accepted':
+        return redirect('ucnitk')
+
     user = request.user
     order.ServiceProvider = user
     order.AcceptedTime = timezone.now()
@@ -226,6 +230,10 @@ def accept_order(request , pk):
 
 def cancel_order(request, pk):
     order = Order.objects.filter(id = pk)[0]
+
+    if order.Status != 'Accepted':
+        return redirect('ucnitk')
+
     user = request.user
     order.ServiceProvider = None
     order.AcceptedTime = None
@@ -249,6 +257,10 @@ def cancel_order(request, pk):
 
 def finish_order(request, pk):
     order = Order.objects.filter(id = pk)[0]
+
+    if order.Status != 'Accepted':
+        return redirect('ucnitk')
+
     order.OrderFinishedTime = timezone.now()
     order.Status = 'Pending Payment'
     order.Price = request.POST['price']
@@ -271,11 +283,19 @@ def finish_order(request, pk):
 
 def delete_order(request, pk):
     order = Order.objects.filter(id=pk)[0]
+
+    if order.Status != 'Not Accepted':
+        return redirect('ucnitk')
+
     order.delete()
     return redirect('your-orders')
 
 def confirm_cash_payment(request, pk):
     order = Order.objects.filter(id=pk)[0]
+
+    if order.Status != 'Pending Payment':
+        return redirect('ucnitk')
+
     order.payment_status = 3
     order.Status = 'Completed'
     order.save()
