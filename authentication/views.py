@@ -47,6 +47,11 @@ class RegistrationView(View):
                 if len(password)<6:
                     messages.error(request, 'Password too short')
                     return render(request, 'authentication/register.html', context)
+                contains_digit = any(map(str.isdigit, password))
+                contains_alpha = any(map(str.isalpha, password))
+                if not contains_digit or not contains_alpha:
+                    messages.error(request, 'Password is not alphanumeric')
+                    return render(request, 'authentication/register.html', context)
 
                 # print(request.POST['usertype'])
                 # print(request.POST['service'])
